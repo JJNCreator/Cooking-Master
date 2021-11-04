@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -868,6 +868,12 @@ MonoBehaviour:
   - {fileID: 1995905841}
   bluePlayerSpawnPoint: {fileID: 1395632360}
   redPlayerSpawnPoint: {fileID: 972280016}
+  spinachSpawnPoint: {fileID: 670980655}
+  celerySpawnPoint: {fileID: 1819564527}
+  lettuceSpawnPoint: {fileID: 1523718564}
+  carrotSpawnPoint: {fileID: 1222927218}
+  tomatoSpawnPoint: {fileID: 999514660}
+  onionSpawnPoint: {fileID: 1995905841}
   bluePlayerRef: {fileID: 0}
   redPlayerRef: {fileID: 0}
   bluePlayerTime: 0

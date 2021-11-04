@@ -25,6 +25,18 @@ public class GameManager : MonoBehaviour
     public GameObject bluePlayerSpawnPoint;
     //red player spawn point
     public GameObject redPlayerSpawnPoint;
+    //spawn point for spinach
+    public GameObject spinachSpawnPoint;
+    //spawn point for celery
+    public GameObject celerySpawnPoint;
+    //spawn point for lettuce
+    public GameObject lettuceSpawnPoint;
+    //spawn point for carrot
+    public GameObject carrotSpawnPoint;
+    //spawn point for tomato
+    public GameObject tomatoSpawnPoint;
+    //spawn point for onion
+    public GameObject onionSpawnPoint;
 
     [Header("Player References")]
     //reference for blue player
