@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class UIManager : MonoBehaviour
     public Text redPlayerTimeText;
     //reference for red player score UI
     public Text redPlayerScoreText;
+
+    //reference for endgame UI
+    public GameObject endUI;
 
     //reference for instance getter
     private static UIManager instance;
@@ -59,5 +63,9 @@ public class UIManager : MonoBehaviour
                 redPlayerScoreText.text = string.Format("Score: {0}", newScore.ToString());
             }
         }
+    }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
