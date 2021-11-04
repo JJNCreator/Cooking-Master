@@ -32,6 +32,16 @@ public class GameManager : MonoBehaviour
     //reference for red player
     public PlayerCharacter redPlayerRef;
 
+    [Header("Player Stats")]
+    //blue player time
+    public float bluePlayerTime;
+    //blue player score
+    public int bluePlayerScore;
+    //red player time
+    public float redPlayerTime;
+    //red player score
+    public int redPlayerScore;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +52,39 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+    public void UpdatePlayerScore(int amount, bool bluePlayer)
+    {
+        //if we're the blue player...
+        if(bluePlayer)
+        {
+            //...add the amount to the blue player's score
+            bluePlayerScore += amount;
+            //if our score is less than zero...
+            if(bluePlayerScore < 0)
+            {
+                //...set the blue score to zero
+                bluePlayerScore = 0;
+            }
+            //update the UI for the blue player's score
+            UIManager.Instance.UpdatePlayerScore(bluePlayerScore, true);
+
+
+        }
+        //otherwise...
+        else
+        {
+            //...add it to the red player's score
+            redPlayerScore += amount;
+            //if it goes below zero, set it to zero
+            if(redPlayerScore < 0)
+            {
+                redPlayerScore = 0;
+            }
+            //update the UI for the red player's score
+            UIManager.Instance.UpdatePlayerScore(redPlayerScore, false);
+        }
+
     }
     public void SpawnPlayers()
     {
