@@ -20,9 +20,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""89393815-ec30-470c-9c3b-9c2c0f532920"",
-                    ""expectedControlType"": ""Dpad"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -110,9 +110,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""1055b541-6fb5-4a1a-aead-d3475f813c14"",
-                    ""expectedControlType"": ""Dpad"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
