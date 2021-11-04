@@ -65,6 +65,64 @@ public class GameManager : MonoBehaviour
     {
         
     }
+   
+    #region SPAWN_VEGETABLES
+    public void SpawnVegetableAtSpawn(Vegetable.VegetableType vType)
+    {
+        switch(vType)
+        {
+            case Vegetable.VegetableType.Spinach:
+                SpawnSpinach();
+                break;
+            case Vegetable.VegetableType.Celery:
+                SpawnCelery();
+                break;
+            case Vegetable.VegetableType.Lettuce:
+                SpawnLettuce();
+                break;
+            case Vegetable.VegetableType.Tomato:
+                SpawnTomato();
+                break;
+            case Vegetable.VegetableType.Onion:
+                SpawnOnion();
+                break;
+            case Vegetable.VegetableType.Carrot:
+                SpawnCarrot();
+                break;
+        }
+    }
+    private void SpawnSpinach()
+    {
+        //instantiate a spinach prefab from the Resources folder at the spinach spawn point
+        Instantiate((GameObject)Resources.Load("Vegetables/Spinach"), spinachSpawnPoint.transform.position, spinachSpawnPoint.transform.rotation);
+    }
+    private void SpawnCelery()
+    {
+        //instantiate a celery prefab from the Resources folder at the celery spawn point
+        Instantiate((GameObject)Resources.Load("Vegetables/Celery"), celerySpawnPoint.transform.position, celerySpawnPoint.transform.rotation);
+    }
+    private void SpawnLettuce()
+    {
+        //instantiate a lettuce prefab from the Resources folder at the lettuce spawn point
+        Instantiate((GameObject)Resources.Load("Vegetables/Lettuce"), lettuceSpawnPoint.transform.position, lettuceSpawnPoint.transform.rotation);
+    }
+    private void SpawnCarrot()
+    {
+        //instantiate a carrot prefab from the Resources folder at the carrot spawn point
+        Instantiate((GameObject)Resources.Load("Vegetables/Carrot"), carrotSpawnPoint.transform.position, carrotSpawnPoint.transform.rotation);
+    }
+    private void SpawnTomato()
+    {
+        //instantiate a tomato prefab from the Resources folder at the tomato spawn point
+        Instantiate((GameObject)Resources.Load("Vegetables/Tomato"), tomatoSpawnPoint.transform.position, tomatoSpawnPoint.transform.rotation);
+    }
+    private void SpawnOnion()
+    {
+        //instantiate an onion prefab from the Resources folder at the onion spawn point
+        Instantiate((GameObject)Resources.Load("Vegetables/Onion"), onionSpawnPoint.transform.position, onionSpawnPoint.transform.rotation);
+    }
+    #endregion
+    #region PLAYERS
     public void UpdatePlayerScore(int amount, bool bluePlayer)
     {
         //if we're the blue player...
@@ -80,8 +138,6 @@ public class GameManager : MonoBehaviour
             }
             //update the UI for the blue player's score
             UIManager.Instance.UpdatePlayerScore(bluePlayerScore, true);
-
-
         }
         //otherwise...
         else
@@ -110,4 +166,5 @@ public class GameManager : MonoBehaviour
         //assign the red player reference to the above local variable
         redPlayerRef = spawnRed.GetComponent<PlayerCharacter>();
     }
+    #endregion
 }
