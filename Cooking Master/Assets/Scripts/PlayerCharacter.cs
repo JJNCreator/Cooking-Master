@@ -15,6 +15,9 @@ public class PlayerCharacter : MonoBehaviour
     //reference for input asset
     public PlayerActions playerActions;
 
+    //references for current possible interaction
+    public string currentPossibleInteraction;
+   
     //reference for movement vector
     private Vector2 movementVector;
 
@@ -115,5 +118,32 @@ public class PlayerCharacter : MonoBehaviour
                 Debug.Log("PlayerCharacter:InitiateInputActions() - Red player interacted");
             };
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        //enable vegetable interaction if collider tag is Vegetable
+        if(other.CompareTag("Vegetable"))
+        {
+            currentPossibleInteraction = "Vegetable";
+        }
+        //enable customer interaction if collider tag is Customer
+        if(other.CompareTag("Customer"))
+        {
+            currentPossibleInteraction = "Customer";
+        }
+        //enable chopping board interaction if collider tag is ChoppingBoard
+        if(other.CompareTag("ChoppingBoard"))
+        {
+            currentPossibleInteraction = "ChoppingBoard";
+        }
+        //enable trash can interaction if collider tag is TrashCan
+        if(other.CompareTag("TrashCan"))
+        {
+            currentPossibleInteraction = "TrashCan";
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        currentPossibleInteraction = string.Empty;
     }
 }

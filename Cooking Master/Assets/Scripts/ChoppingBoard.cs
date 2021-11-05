@@ -15,4 +15,8 @@ public class ChoppingBoard : MonoBehaviour
     {
         
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        
+    }
 }

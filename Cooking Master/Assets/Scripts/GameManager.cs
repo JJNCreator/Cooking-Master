@@ -58,12 +58,33 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SpawnPlayers();
+        TestSpawnVegetables();
+        TestCustomerSpawn();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    private void TestSpawnVegetables()
+    {
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Spinach);
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Carrot);
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Celery);
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Lettuce);
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Onion);
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Tomato);
+
+    }
+    private void TestCustomerSpawn()
+    {
+        for(int i = 0; i < customerSpawnPoints.Length; i++)
+        {
+            GameObject spawnPoint = customerSpawnPoints[i];
+            GameObject go = Instantiate((GameObject)Resources.Load("Customer"), spawnPoint.transform.position, spawnPoint.transform.rotation);
+        }
     }
    
     #region SPAWN_VEGETABLES
