@@ -98,6 +98,8 @@ public class PlayerCharacter : MonoBehaviour
             playerActions.BluePlayer.Interact.performed += ctx =>
             {
                 Debug.Log("PlayerCharacter:InitiateInputActions() - Blue player interacted");
+                Interact(currentPossibleInteraction);
+
             };
         }
         //if we're the red player...
@@ -116,8 +118,30 @@ public class PlayerCharacter : MonoBehaviour
             playerActions.RedPlayer.Interact.performed += ctx =>
             {
                 Debug.Log("PlayerCharacter:InitiateInputActions() - Red player interacted");
+                Interact(currentPossibleInteraction);
             };
         }
+    }
+    private void Interact(string tagForInteractingObject)
+    {
+        //switch case
+        switch(tagForInteractingObject)
+        {
+            case "Vegetable":
+                //TODO: Set up function for collecting vegetables
+                break;
+            case "Customer":
+                //TODO: Set up function for interacting with customers
+                break;
+            case "ChoppingBoard":
+                //TODO: Set up function for interacting with chopping board
+                break;
+            case "TrashCan":
+                //TODO: Set up function for putting vegetables in trash can
+                break;
+        }
+        currentPossibleInteraction = string.Empty;
+
     }
     private void OnTriggerEnter(Collider other)
     {
