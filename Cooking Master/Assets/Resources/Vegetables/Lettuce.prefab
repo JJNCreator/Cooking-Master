@@ -17,6 +17,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lettuce
       objectReference: {fileID: 0}
+    - target: {fileID: 2013239978145741839, guid: c4c2a75dca8f71546bd6aa594586fc58,
+        type: 3}
+      propertyPath: m_TagString
+      value: Vegetable
+      objectReference: {fileID: 0}
     - target: {fileID: 2013239978145741840, guid: c4c2a75dca8f71546bd6aa594586fc58,
         type: 3}
       propertyPath: type
