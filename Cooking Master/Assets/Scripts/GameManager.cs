@@ -86,6 +86,17 @@ public class GameManager : MonoBehaviour
             GameObject go = Instantiate((GameObject)Resources.Load("Customer"), spawnPoint.transform.position, spawnPoint.transform.rotation);
         }
     }
+
+    public void RespawnVegetable(Vegetable.VegetableType typeToSpawn)
+    {
+        StartCoroutine(RespawnVegetableCoroutine(typeToSpawn));
+    }
+    private IEnumerator RespawnVegetableCoroutine(Vegetable.VegetableType type)
+    {
+        yield return new WaitForSeconds(2f);
+
+        SpawnVegetableAtSpawn(type);
+    }
    
     #region SPAWN_VEGETABLES
     public void SpawnVegetableAtSpawn(Vegetable.VegetableType vType)
