@@ -149,7 +149,7 @@ public class PlayerCharacter : MonoBehaviour
                 //TODO: Set up function for interacting with chopping board
                 break;
             case "TrashCan":
-                //TODO: Set up function for putting vegetables in trash can
+                PutItemsInTrashCan();
                 break;
         }
         currentPossibleInteraction = string.Empty;
@@ -164,7 +164,7 @@ public class PlayerCharacter : MonoBehaviour
             Debug.Log("PlayerCharacter:PickUpVegetable() - inventory is full.");
             return;
         }
-        Item vegetableItem = new Item(string.Empty);
+        Item vegetableItem = new Item(string.Empty, false);
         //if the currently detected vegetable exists...
         if (currentlyDetectedVegetable != null)
         {
@@ -174,22 +174,22 @@ public class PlayerCharacter : MonoBehaviour
             switch(vType)
             {
                 case Vegetable.VegetableType.Spinach:
-                    vegetableItem = new Item("Spinach");
+                    vegetableItem = new Item("Spinach", false);
                     break;
                 case Vegetable.VegetableType.Celery:
-                    vegetableItem = new Item("Celery");
+                    vegetableItem = new Item("Celery", false);
                     break;
                 case Vegetable.VegetableType.Lettuce:
-                    vegetableItem = new Item("Lettuce");
+                    vegetableItem = new Item("Lettuce", false);
                     break;
                 case Vegetable.VegetableType.Carrot:
-                    vegetableItem = new Item("Carrot");
+                    vegetableItem = new Item("Carrot", false);
                     break;
                 case Vegetable.VegetableType.Tomato:
-                    vegetableItem = new Item("Tomato");
+                    vegetableItem = new Item("Tomato", false);
                     break;
                 case Vegetable.VegetableType.Onion:
-                    vegetableItem = new Item("Onion");
+                    vegetableItem = new Item("Onion", false);
                     break;
             }
         }
@@ -202,6 +202,21 @@ public class PlayerCharacter : MonoBehaviour
         //destroy vegetable object
         Destroy(currentlyDetectedVegetable);
         currentlyDetectedVegetable = null;
+    }
+    private void PutItemsInTrashCan()
+    {
+        //for each of the items in our inventory
+        foreach(Item i in currentlyPickedUpItems)
+        {
+            //if one of them is a combination...
+            if(i.IsCombination())
+            {
+                //...deduct some points for this player only
+                GameManager.Instance.UpdatePlayerScore(-5, isBluePlayer);
+            }
+        }
+        //Clear this player's inventory
+        currentlyPickedUpItems.Clear();
     }
     private void OnTriggerEnter(Collider other)
     {
