@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     public GameObject tomatoSpawnPoint;
     //spawn point for onion
     public GameObject onionSpawnPoint;
+    //spawn points for pick up items
+    public GameObject[] pickupSpawnPoints;
 
     [Header("Player References")]
     //reference for blue player
