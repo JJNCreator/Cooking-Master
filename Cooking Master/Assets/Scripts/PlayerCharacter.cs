@@ -21,6 +21,9 @@ public class PlayerCharacter : MonoBehaviour
     //reference for detected chopping board
     public GameObject currentlyDetectedChoppingBoard;
 
+    //reference for detected customer
+    public GameObject currentlyDetectedCustomer;
+
     //reference for input asset
     public PlayerActions playerActions;
 
@@ -256,6 +259,7 @@ public class PlayerCharacter : MonoBehaviour
         if(other.CompareTag("Customer"))
         {
             currentPossibleInteraction = "Customer";
+            currentlyDetectedCustomer = other.gameObject;
         }
         //enable chopping board interaction if collider tag is ChoppingBoard
         if(other.CompareTag("ChoppingBoard"))
@@ -279,6 +283,10 @@ public class PlayerCharacter : MonoBehaviour
         if(other.CompareTag("ChoppingBoard"))
         {
             currentlyDetectedChoppingBoard = null;
+        }
+        if(other.CompareTag("Customer"))
+        {
+            currentlyDetectedCustomer = null;
         }
     }
 }
