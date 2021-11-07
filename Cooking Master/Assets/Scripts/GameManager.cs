@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
+    [Header("Vegetable Materials")]
+    public VegetableMaterialsSO vegetableMaterialsSo;
     [Header("Spawn points")]
     //array of spawn points for customers
     public GameObject[] customerSpawnPoints;

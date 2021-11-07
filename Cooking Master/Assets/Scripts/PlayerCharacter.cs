@@ -18,6 +18,9 @@ public class PlayerCharacter : MonoBehaviour
     //reference for detected vegetable
     public GameObject currentlyDetectedVegetable;
 
+    //reference for detected chopping board
+    public GameObject currentlyDetectedChoppingBoard;
+
     //reference for input asset
     public PlayerActions playerActions;
 
@@ -146,7 +149,7 @@ public class PlayerCharacter : MonoBehaviour
                 //TODO: Set up function for interacting with customers
                 break;
             case "ChoppingBoard":
-                //TODO: Set up function for interacting with chopping board
+                InteractWithChoppingBoard();
                 break;
             case "TrashCan":
                 PutItemsInTrashCan();
@@ -196,6 +199,9 @@ public class PlayerCharacter : MonoBehaviour
         //add the item to the player's inventory
         currentlyPickedUpItems.Add(vegetableItem);
 
+        //update this player's inventory UI
+        UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
+
         //have Game Manager respawn that same vegetable
         GameManager.Instance.RespawnVegetable(currentlyDetectedVegetable.GetComponent<Vegetable>().type);
 
@@ -217,6 +223,22 @@ public class PlayerCharacter : MonoBehaviour
         }
         //Clear this player's inventory
         currentlyPickedUpItems.Clear();
+
+        //update this player's inventory UI
+        UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
+    }
+    private void InteractWithChoppingBoard()
+    {
+        //reference for first item in player inventory
+        Item firstItemInInventory = currentlyPickedUpItems[0];
+        //reference for ChoppingBoard component in detected chopping board
+        ChoppingBoard choppingBoardReference = currentlyDetectedChoppingBoard.GetComponent<ChoppingBoard>();
+        //call function for chopping
+        choppingBoardReference.InitiateChopping(firstItemInInventory, isBluePlayer);
+        //remove item from player's inventory
+        currentlyPickedUpItems.Remove(firstItemInInventory);
+        //disable movement on this player
+        canMove = false;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -235,6 +257,7 @@ public class PlayerCharacter : MonoBehaviour
         if(other.CompareTag("ChoppingBoard"))
         {
             currentPossibleInteraction = "ChoppingBoard";
+            currentlyDetectedChoppingBoard = other.gameObject;
         }
         //enable trash can interaction if collider tag is TrashCan
         if(other.CompareTag("TrashCan"))
@@ -248,6 +271,10 @@ public class PlayerCharacter : MonoBehaviour
         if(other.CompareTag("Vegetable"))
         {
             currentlyDetectedVegetable = null;
+        }
+        if(other.CompareTag("ChoppingBoard"))
+        {
+            currentlyDetectedChoppingBoard = null;
         }
     }
 }

@@ -18,6 +18,15 @@ public class UIManager : MonoBehaviour
     //reference for endgame UI
     public GameObject endUI;
 
+    //reference for blue player inventory items
+    public Image[] bluePlayerInventoryItems;
+    //reference for red player inventory items
+    public Image[] redPlayerInventoryItems;
+
+    //reference for original inventory items material
+    private Material originalInventoryItemMaterial;
+
+
     //reference for instance getter
     private static UIManager instance;
 
@@ -35,13 +44,61 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //store the original material
+        originalInventoryItemMaterial = bluePlayerInventoryItems[0].material;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    public void UpdatePlayerInventory(List<Item> items, bool bluePlayer)
+    {
+        //if we're the blue player...
+        if(bluePlayer)
+        {
+            if(items.Count > 0)
+            {
+                //...forloop for each of the items...
+                for (int i = 0; i < items.Count; i++)
+                {
+                    //...set up a material local variable that's assigned to the item's material based on it's name
+                    Material vegetableMaterial = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[i].GetItemName());
+                    //assign the material to each of the UI images
+                    bluePlayerInventoryItems[i].material = vegetableMaterial;
+                }
+            }
+            else if (items.Count == 0)
+            {
+                for(int i = 0; i < bluePlayerInventoryItems.Length; i++)
+                {
+                    bluePlayerInventoryItems[i].material = originalInventoryItemMaterial;
+                }
+            }
+        }
+        //otherwise...
+        else
+        {
+            if(items.Count > 0)
+            {
+                //...forloop for each of the items...
+                for (int i = 0; i < items.Count; i++)
+                {
+                    //...set up a material local variable that's assigned to the item's material based on it's name
+                    Material vegetableMaterial = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[i].GetItemName());
+                    //assign the material to each of the UI images
+                    redPlayerInventoryItems[i].material = vegetableMaterial;
+                }
+            }
+            else if (items.Count == 0)
+            {
+                for (int i = 0; i < redPlayerInventoryItems.Length; i++)
+                {
+                    redPlayerInventoryItems[i].material = originalInventoryItemMaterial;
+                }
+            }
+        }
     }
     public void UpdatePlayerScore(int newScore, bool bluePlayer)
     {
