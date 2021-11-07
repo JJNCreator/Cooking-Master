@@ -146,7 +146,7 @@ public class PlayerCharacter : MonoBehaviour
                 PickUpVegetable();
                 break;
             case "Customer":
-                //TODO: Set up function for interacting with customers
+                InteractWithCustomer();
                 break;
             case "ChoppingBoard":
                 InteractWithChoppingBoard();
@@ -239,6 +239,10 @@ public class PlayerCharacter : MonoBehaviour
         currentlyPickedUpItems.Remove(firstItemInInventory);
         //disable movement on this player
         canMove = false;
+    }
+    private void InteractWithCustomer()
+    {
+
     }
     private void OnTriggerEnter(Collider other)
     {
