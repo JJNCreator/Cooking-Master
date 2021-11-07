@@ -15,6 +15,11 @@ public class UIManager : MonoBehaviour
     //reference for red player score UI
     public Text redPlayerScoreText;
 
+    //reference for left chopping board timer UI
+    public Image leftChoppingBoardTimer;
+    //referene for right chopping board timer UI
+    public Image rightChoppingBoardTimer;
+
     //reference for endgame UI
     public GameObject endUI;
 
