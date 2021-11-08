@@ -74,7 +74,7 @@ public class ChoppingBoard : MonoBehaviour
         }
 
         //add item that was chopped to chopped items list
-        choppedItems.Add(itemBeingChopped);
+        ChopItemOrCreateCombination(itemBeingChopped);
         //nullify the item being chopped variable
         itemBeingChopped = null;
         //if the blue player dropped off this item...
@@ -89,6 +89,35 @@ public class ChoppingBoard : MonoBehaviour
             //...enable the red player's movement
             GameManager.Instance.redPlayerRef.canMove = true;
         }
+    }
+
+    private void ChopItemOrCreateCombination(Item choppedItem)
+    {
+        switch(choppedItems.Count)
+        {
+            //if we have no chopped items...
+            case 0:
+                //...just add the chopped item
+                choppedItems.Add(choppedItem);
+                break;
+            //or if we have one item already chopped...
+            case 1:
+                //...create a new item with the name itemName1+,+itemName2
+                Item twoCombination = new Item(string.Format("{0},{1}", choppedItems[0].GetItemName(), choppedItem.GetItemName()), true);
+                //add the new item to the chopped items
+                choppedItems.Add(twoCombination);
+                choppedItems.RemoveAt(0);
+                break;
+            //or if we have two items already chopped...
+            case 2:
+                //...create a new item with the name itemName1+,+itemName2+,+itemName3
+                Item threeCombination = new Item(string.Format("{0},{1},{2}", choppedItems[0].GetItemName(), choppedItems[1].GetItemName(), choppedItem.GetItemName()), true);
+                //add the new item to the chopped items
+                choppedItems.Add(threeCombination);
+                choppedItems.RemoveRange(0, 1);
+                break;
+        }
+       
     }
     private void OnTriggerEnter(Collider other)
     {
