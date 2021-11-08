@@ -148,18 +148,23 @@ public class PlayerCharacter : MonoBehaviour
         //switch case
         switch(tagForInteractingObject)
         {
+            //Vegetable
             case "Vegetable":
                 PickUpVegetable();
                 break;
+            //Customer
             case "Customer":
                 InteractWithCustomer();
                 break;
+            //Chopping board
             case "ChoppingBoard":
                 InteractWithChoppingBoard();
                 break;
+            //Trash can
             case "TrashCan":
                 PutItemsInTrashCan();
                 break;
+            //Plate
             case "Plate":
                 InteractWithPlate();
                 break;
