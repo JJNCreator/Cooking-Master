@@ -245,7 +245,7 @@ public class PlayerCharacter : MonoBehaviour
     }
     private void InteractWithCustomer()
     {
-
+        //TODO: Set up interaction with currently detected customer
     }
     private void OnTriggerEnter(Collider other)
     {

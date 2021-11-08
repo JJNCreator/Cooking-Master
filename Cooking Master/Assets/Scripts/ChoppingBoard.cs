@@ -89,9 +89,6 @@ public class ChoppingBoard : MonoBehaviour
             //...enable the red player's movement
             GameManager.Instance.redPlayerRef.canMove = true;
         }
-
-
-
     }
     private void OnTriggerEnter(Collider other)
     {
