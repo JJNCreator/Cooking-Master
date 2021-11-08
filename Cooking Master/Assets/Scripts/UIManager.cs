@@ -76,6 +76,14 @@ public class UIManager : MonoBehaviour
                     }
                     break;
                 case 1:
+                    //...set up a material local variable that's assigned to the item's material based on it's name
+                    Material vegetableMaterial1 = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[0].GetItemName());
+                    //assign the material to each of the UI images
+                    bluePlayerInventoryItems[1].material = vegetableMaterial1;
+
+                    //assign the original material to the second slot in the player's inventory
+                    bluePlayerInventoryItems[0].material = originalInventoryItemMaterial;
+                    break;
                 case 2:
                     //for each of the items given by the input parameter
                     for(int i = 0; i < items.Count; i++)
@@ -94,16 +102,24 @@ public class UIManager : MonoBehaviour
             //switch statement based on the input's count
             switch (items.Count)
             {
-                //if we don't have anything in our inventory
+                //if we don't have anything in our inventory...
                 case 0:
                     //run through this twice
                     for (int i = 0; i < 2; i++)
                     {
-                        //set both inventory items' material to the original material we stored
+                        //set both inventory items' material to the original material that we stored
                         redPlayerInventoryItems[i].material = originalInventoryItemMaterial;
                     }
                     break;
                 case 1:
+                    //...set up a material local variable that's assigned to the item's material based on it's name
+                    Material vegetableMaterial1 = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[0].GetItemName());
+                    //assign the material to each of the UI images
+                    redPlayerInventoryItems[1].material = vegetableMaterial1;
+
+                    //assign the original material to the second slot in the player's inventory
+                    redPlayerInventoryItems[0].material = originalInventoryItemMaterial;
+                    break;
                 case 2:
                     //for each of the items given by the input parameter
                     for (int i = 0; i < items.Count; i++)

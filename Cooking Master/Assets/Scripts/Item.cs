@@ -25,4 +25,8 @@ public class Item
         //return combination value
         return isCombination;
     }
+    public static Item EmptyItem()
+    {
+        return new Item(string.Empty, false);
+    }
 }

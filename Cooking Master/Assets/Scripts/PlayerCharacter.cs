@@ -24,6 +24,9 @@ public class PlayerCharacter : MonoBehaviour
     //reference for detected customer
     public GameObject currentlyDetectedCustomer;
 
+    //reference for detected plate
+    public GameObject currentlyDetectedPlate;
+
     //reference for input asset
     public PlayerActions playerActions;
 
@@ -157,6 +160,9 @@ public class PlayerCharacter : MonoBehaviour
             case "TrashCan":
                 PutItemsInTrashCan();
                 break;
+            case "Plate":
+                InteractWithPlate();
+                break;
         }
         currentPossibleInteraction = string.Empty;
 
@@ -170,7 +176,8 @@ public class PlayerCharacter : MonoBehaviour
             Debug.Log("PlayerCharacter:PickUpVegetable() - inventory is full.");
             return;
         }
-        Item vegetableItem = new Item(string.Empty, false);
+        //set up a new item
+        Item vegetableItem = Item.EmptyItem();
         //if the currently detected vegetable exists...
         if (currentlyDetectedVegetable != null)
         {
@@ -230,6 +237,39 @@ public class PlayerCharacter : MonoBehaviour
         //update this player's inventory UI
         UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
     }
+    private void InteractWithPlate()
+    {
+        //reference for first item in player's inventory
+        Item firstItemInInventory = Item.EmptyItem();
+        //if we have something in our inventory...
+        if(currentlyPickedUpItems.Count > 0)
+        {
+            //...set it to the item in the first slot
+            firstItemInInventory = currentlyPickedUpItems[0];
+        }
+        //reference for plate component
+        Plate detectedPlate = currentlyDetectedPlate.GetComponent<Plate>();
+        //if there's nothing on the plate...
+        if(detectedPlate.currentItemBeingHeld.GetItemName() == string.Empty)
+        {
+            Debug.Log("PlayerCharacter:InteractWithPlate() - No item on plate");
+            //...assign the plate's item to the inventory's first item
+            detectedPlate.currentItemBeingHeld = firstItemInInventory;
+            //...also remove the first item from the inventory
+            currentlyPickedUpItems.Remove(firstItemInInventory);
+        }
+        //otherwise...
+        else
+        {
+            Debug.Log("PlayerCharacter:InteractWithPlate() - Item on plate");
+            //...add the plate's item to the inventory
+            currentlyPickedUpItems.Add(detectedPlate.currentItemBeingHeld);
+            //and nullify the plate's item
+            detectedPlate.currentItemBeingHeld = Item.EmptyItem();
+        }
+        //update the player inventory UI
+        UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
+    }
     private void InteractWithChoppingBoard()
     {
         //reference for first item in player inventory
@@ -274,6 +314,11 @@ public class PlayerCharacter : MonoBehaviour
         {
             currentPossibleInteraction = "TrashCan";
         }
+        if(other.CompareTag("Plate"))
+        {
+            currentPossibleInteraction = "Plate";
+            currentlyDetectedPlate = other.gameObject;
+        }
     }
     private void OnTriggerExit(Collider other)
     {
@@ -289,6 +334,10 @@ public class PlayerCharacter : MonoBehaviour
         if(other.CompareTag("Customer"))
         {
             currentlyDetectedCustomer = null;
+        }
+        if(other.CompareTag("Plate"))
+        {
+            currentlyDetectedPlate = null;
         }
     }
 }
