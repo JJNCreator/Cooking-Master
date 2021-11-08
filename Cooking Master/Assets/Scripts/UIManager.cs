@@ -63,45 +63,57 @@ public class UIManager : MonoBehaviour
         //if we're the blue player...
         if(bluePlayer)
         {
-            if(items.Count > 0)
+            //switch statement based on the input's count
+            switch(items.Count)
             {
-                //...forloop for each of the items...
-                for (int i = 0; i < items.Count; i++)
-                {
-                    //...set up a material local variable that's assigned to the item's material based on it's name
-                    Material vegetableMaterial = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[i].GetItemName());
-                    //assign the material to each of the UI images
-                    bluePlayerInventoryItems[i].material = vegetableMaterial;
-                }
-            }
-            else if (items.Count == 0)
-            {
-                for(int i = 0; i < bluePlayerInventoryItems.Length; i++)
-                {
-                    bluePlayerInventoryItems[i].material = originalInventoryItemMaterial;
-                }
+                //if we don't have anything in our inventory...
+                case 0:
+                    //run through this twice
+                    for(int i = 0; i < 2; i++)
+                    {
+                        //set both inventory items' material to the original material that we stored
+                        bluePlayerInventoryItems[i].material = originalInventoryItemMaterial;
+                    }
+                    break;
+                case 1:
+                case 2:
+                    //for each of the items given by the input parameter
+                    for(int i = 0; i < items.Count; i++)
+                    {
+                        //...set up a material local variable that's assigned to the item's material based on it's name
+                        Material vegetableMaterial = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[i].GetItemName());
+                        //assign the material to each of the UI images
+                        bluePlayerInventoryItems[i].material = vegetableMaterial;
+                    }
+                    break;
             }
         }
         //otherwise...
         else
         {
-            if(items.Count > 0)
+            //switch statement based on the input's count
+            switch (items.Count)
             {
-                //...forloop for each of the items...
-                for (int i = 0; i < items.Count; i++)
-                {
-                    //...set up a material local variable that's assigned to the item's material based on it's name
-                    Material vegetableMaterial = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[i].GetItemName());
-                    //assign the material to each of the UI images
-                    redPlayerInventoryItems[i].material = vegetableMaterial;
-                }
-            }
-            else if (items.Count == 0)
-            {
-                for (int i = 0; i < redPlayerInventoryItems.Length; i++)
-                {
-                    redPlayerInventoryItems[i].material = originalInventoryItemMaterial;
-                }
+                //if we don't have anything in our inventory
+                case 0:
+                    //run through this twice
+                    for (int i = 0; i < 2; i++)
+                    {
+                        //set both inventory items' material to the original material we stored
+                        redPlayerInventoryItems[i].material = originalInventoryItemMaterial;
+                    }
+                    break;
+                case 1:
+                case 2:
+                    //for each of the items given by the input parameter
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        //...set up a material local variable that's assigned to the item's material based on it's name
+                        Material vegetableMaterial = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[i].GetItemName());
+                        //assign the material to each of the UI images
+                        redPlayerInventoryItems[i].material = vegetableMaterial;
+                    }
+                    break;
             }
         }
     }
@@ -128,6 +140,7 @@ public class UIManager : MonoBehaviour
     }
     public void RestartGame()
     {
+        //Load the scene we're currently in, effectively reloads this scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

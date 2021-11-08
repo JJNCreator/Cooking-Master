@@ -240,6 +240,8 @@ public class PlayerCharacter : MonoBehaviour
         choppingBoardReference.InitiateChopping(firstItemInInventory, isBluePlayer);
         //remove item from player's inventory
         currentlyPickedUpItems.Remove(firstItemInInventory);
+        //update this player's inventory UI
+        UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
         //disable movement on this player
         canMove = false;
     }
