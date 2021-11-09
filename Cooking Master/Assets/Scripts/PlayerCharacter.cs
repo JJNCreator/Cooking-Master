@@ -283,14 +283,31 @@ public class PlayerCharacter : MonoBehaviour
         //if this chopping board has a combined item...
         if(choppingBoardReference.hasCombination)
         {
-            //add the item to this player's inventory
-            currentlyPickedUpItems.Add(choppingBoardReference.choppedItems[0]);
-            //remove all items from the chopping board
-            choppingBoardReference.choppedItems.RemoveAt(0);
-            //update this player's inventory UI
-            UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
-            //the chopping board no longer has a combined item
-            choppingBoardReference.hasCombination = false;
+            //if this player doesn't have any items in their inventory...
+            if(currentlyPickedUpItems.Count == 0)
+            {
+                //add the item to this player's inventory
+                currentlyPickedUpItems.Add(choppingBoardReference.choppedItems[0]);
+                //remove all items from the chopping board
+                choppingBoardReference.choppedItems.RemoveAt(0);
+                //update this player's inventory UI
+                UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
+                //the chopping board no longer has a combined item
+                choppingBoardReference.hasCombination = false;
+            }
+            else
+            {
+                //reference for first item in player inventory
+                Item firstItemInInventory = currentlyPickedUpItems[0];
+                //call function for chopping
+                choppingBoardReference.InitiateChopping(firstItemInInventory, isBluePlayer);
+                //remove item from player's inventory
+                currentlyPickedUpItems.Remove(firstItemInInventory);
+                //update this player's inventory UI
+                UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
+                //disable movement on this player
+                canMove = false;
+            }
         }
         //otherwise...
         else

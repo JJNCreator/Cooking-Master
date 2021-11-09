@@ -23,6 +23,14 @@ public class Customer : MonoBehaviour
     public string requestedCombination;
     //reference for comnbination indicator plane
     public GameObject combinationIndicatorPlane;
+    //reference for double combo parent object
+    public GameObject doubleComboParent;
+    //reference for triple combo parent object
+    public GameObject tripleComboParent;
+    //reference for array of double combo planes
+    public Renderer[] doubleComboPlanes;
+    //reference for array of triple combo planes
+    public Renderer[] tripleComboPlanes;
     //reference for CustomerCombinations object
     private CustomerCombinations cCombinations;
 
@@ -39,9 +47,9 @@ public class Customer : MonoBehaviour
         //set the customer's behaviour to waiting
         currentBehaviour = CustomerBehaviour.Waiting;
         //get a random combination
-        requestedCombination = cCombinations.GetRandomCombination();
+        requestedCombination = RandomCombinationRequest();
         //Set the indicator plane based on the request
-        SetIndicatorTextureBasedOnRequest();
+        SetPlanesBasedOnRequest();
     }
 
     // Update is called once per frame
@@ -115,6 +123,134 @@ public class Customer : MonoBehaviour
 
         //set the game manager's code based on this customer's behaviour
         GameManager.Instance.DetermineCustomerBehaviourAfterInteraction(currentBehaviour, this.gameObject);
+    }
+    private string RandomCombinationRequest()
+    {
+        //set up an array of strings that will contain all the vegetable names
+        string[] vegetableNames = new string[]
+        {
+            "Spinach",
+            "Celery",
+            "Lettuce",
+            "Carrot",
+            "Tomato",
+            "Onion"
+        };
+        //set up a string that will be the return value
+        string returnValue = string.Empty;
+
+        //set up a random integer between 0 and 2 (inclusive)
+        int randomInteger = Random.Range(0, 2);
+        //switch
+        switch(randomInteger)
+        {
+            case 0:
+                returnValue = string.Format("{0},{1}", vegetableNames[Random.Range(0, vegetableNames.Length)], vegetableNames[Random.Range(0, vegetableNames.Length)]);
+                break;
+            case 1:
+                returnValue = string.Format("{0},{1},{2}", vegetableNames[Random.Range(0, vegetableNames.Length)], vegetableNames[Random.Range(0, vegetableNames.Length)], vegetableNames[Random.Range(0, vegetableNames.Length)]);
+                break;
+        }
+
+        //return generated string
+        return returnValue;
+    }
+    private void SetPlanesBasedOnRequest()
+    {
+        //local variable for comma counter
+        int commaCounter = 0;
+        //for each part of the item name...
+        for (int i = 0; i < requestedCombination.Length; i++)
+        {
+            //...if the item name contains a ','...
+            if (requestedCombination.Substring(i, 1) == ",")
+            {
+                //...add one to the comma counter
+                commaCounter++;
+            }
+        }
+
+        //switch statement for comma counter
+        switch (commaCounter)
+        {
+            //we have one comma
+            case 1:
+                //enable only the double sprite
+                TogglePlanes(false);
+                SetTexturesForMuliplePlanes(false);
+                break;
+            //we have two commas
+            case 2:
+                //enable only the triple sprite
+                TogglePlanes(true);
+                SetTexturesForMuliplePlanes(true);
+                break;
+        }
+    }
+    private void SetTexturesForMuliplePlanes(bool triple)
+    {
+        //set up an array of strings by splitting the item name using comma
+        string[] splitStrings = requestedCombination.Split(',');
+        //set up a list of strings
+        List<string> listOfStrings = new List<string>();
+        //for each of the strings in the array...
+        foreach (string s in splitStrings)
+        {
+            //...add s to the list of strings
+            listOfStrings.Add(s);
+        }
+
+        //for each of the strings in the list...
+        for (int i = 0; i < listOfStrings.Count; i++)
+        {
+            //...set up a sprite that is retrieved from Resources, using s
+            Sprite itemSprite = Resources.Load<Sprite>(string.Format("VegetableSprites/{0}", listOfStrings[i]));
+            //set the sprites by i
+            if (!triple)
+            {
+                doubleComboPlanes[i].material.SetTexture("_BaseMap", Resources.Load<Texture>(string.Format("VegetableTextures/{0}", listOfStrings[i])));
+            }
+            else
+            {
+                tripleComboPlanes[i].material.SetTexture("_BaseMap", Resources.Load<Texture>(string.Format("VegetableTextures/{0}", listOfStrings[i])));
+            }
+        }
+
+    }
+    private void TogglePlanes(bool triple)
+    {
+        //if we're requesting a triple combination...
+        if(triple)
+        {
+            //...if the double parent exists...
+            if(doubleComboParent != null)
+            {
+                //...disable it
+                doubleComboParent.SetActive(false);
+            }
+            //if the triple parent exists...
+            if(tripleComboParent != null)
+            {
+                //...enable it
+                tripleComboParent.SetActive(true);
+            }
+        }
+        //if we're requesting a double combination...
+        else
+        {
+            //...if the double parent exists...
+            if (doubleComboParent != null)
+            {
+                //...enable it
+                doubleComboParent.SetActive(true);
+            }
+            //if the triple parent exists...
+            if (tripleComboParent != null)
+            {
+                //...disable it
+                tripleComboParent.SetActive(false);
+            }
+        }
     }
     private void SetIndicatorTextureBasedOnRequest()
     {

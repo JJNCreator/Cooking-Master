@@ -24,9 +24,9 @@ public class UIManager : MonoBehaviour
     public GameObject endUI;
 
     //reference for blue player inventory items
-    public Image[] bluePlayerInventoryItems;
+    public InventorySlot[] bluePlayerInventoryItems;
     //reference for red player inventory items
-    public Image[] redPlayerInventoryItems;
+    public InventorySlot[] redPlayerInventoryItems;
 
     //reference for original inventory items material
     private Material originalInventoryItemMaterial;
@@ -49,12 +49,32 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //store the original material
-        originalInventoryItemMaterial = bluePlayerInventoryItems[0].material;
+
     }
     public void UpdatePlayerInventory(List<Item> items, bool bluePlayer)
     {
         //if we're the blue player...
+        if(bluePlayer)
+        {
+            //for each of the items...
+            for(int i = 0; i < items.Count; i++)
+            {
+                //...update the blue player's inventory slots with them
+                bluePlayerInventoryItems[i].UpdateSlot(items[i].GetItemName());
+            }
+        }
+        //otherwise...
+        else
+        {
+            //for each of the items...
+            for (int i = 0; i < items.Count; i++)
+            {
+                //...update the blue player's inventory slots with them
+                redPlayerInventoryItems[i].UpdateSlot(items[i].GetItemName());
+            }
+        }
+
+        /*//if we're the blue player...
         if (bluePlayer)
         {
             //...switch statement
@@ -203,7 +223,7 @@ public class UIManager : MonoBehaviour
                     }
                     break;
             }
-        }
+        }*/
     }
     public void UpdatePlayerScore(int newScore, bool bluePlayer)
     {
