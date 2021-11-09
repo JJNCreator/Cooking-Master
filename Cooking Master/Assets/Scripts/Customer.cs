@@ -48,7 +48,7 @@ public class Customer : MonoBehaviour
     void Update()
     {
         //if our current waiting time is greater than zero...
-        if(currentTimeWaiting > 0)
+        /*if(currentTimeWaiting > 0)
         {
             //...if we're angry...
             if(currentBehaviour == CustomerBehaviour.Angry)
@@ -72,7 +72,7 @@ public class Customer : MonoBehaviour
                 //...call OnCustomerLeft
                 OnCustomerLeft();
             }
-        }
+        }*/
     }
     private void OnCustomerLeft()
     {

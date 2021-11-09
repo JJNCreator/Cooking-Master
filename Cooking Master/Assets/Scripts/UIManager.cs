@@ -52,82 +52,154 @@ public class UIManager : MonoBehaviour
         //store the original material
         originalInventoryItemMaterial = bluePlayerInventoryItems[0].material;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void UpdatePlayerInventory(List<Item> items, bool bluePlayer)
     {
         //if we're the blue player...
-        if(bluePlayer)
+        if (bluePlayer)
         {
-            //switch statement based on the input's count
+            //...switch statement
             switch(items.Count)
             {
                 //if we don't have anything in our inventory...
                 case 0:
-                    //run through this twice
+                    //...run through this twice
                     for(int i = 0; i < 2; i++)
                     {
-                        //set both inventory items' material to the original material that we stored
-                        bluePlayerInventoryItems[i].material = originalInventoryItemMaterial;
+                        //...set both inventory items' sprite to null
+                        bluePlayerInventoryItems[i].sprite = null;
                     }
                     break;
+                //if we have one item in our inventory...
                 case 1:
-                    //...set up a material local variable that's assigned to the item's material based on it's name
-                    Material vegetableMaterial1 = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[0].GetItemName());
-                    //assign the material to each of the UI images
-                    bluePlayerInventoryItems[1].material = vegetableMaterial1;
-
-                    //assign the original material to the second slot in the player's inventory
-                    bluePlayerInventoryItems[0].material = originalInventoryItemMaterial;
+                    //set up a new string that is empty
+                    string singleOrCombinationName = string.Empty;
+                    //if the item is a combination
+                    if (items[0].IsCombination())
+                    {
+                        //...set up an array of strings that is split by the coma in the first item name
+                        string[] splitStrings = items[0].GetItemName().Split(',');
+                        //for each of the values in the array...
+                        foreach(string s in splitStrings)
+                        {
+                            //...add s to the empty string
+                            singleOrCombinationName += s;
+                        }
+                    }
+                    //if the item is not a combination...
+                    else
+                    {
+                        //...just assign the item name to combinationWithoutComas
+                        singleOrCombinationName = items[0].GetItemName();
+                    }
+                    //set up a sprite that is retrieved from the Resources folder based on the combination without comas
+                    Sprite itemSprite = Resources.Load<Sprite>(string.Format("VegetableSprites/{0}", singleOrCombinationName));
+                    //assign the sprite to the first slot in the player's inventory
+                    bluePlayerInventoryItems[0].sprite = itemSprite;
                     break;
+                //if we have two items in our inventory...
                 case 2:
-                    //for each of the items given by the input parameter
+                    //set up a string that is empty
+                    string singleOrCombinationName2 = string.Empty;
+                    //...for each of the items in the input parameter...
                     for(int i = 0; i < items.Count; i++)
                     {
-                        //...set up a material local variable that's assigned to the item's material based on it's name
-                        Material vegetableMaterial = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[i].GetItemName());
-                        //assign the material to each of the UI images
-                        bluePlayerInventoryItems[i].material = vegetableMaterial;
+                        //...if items[i] is a combination...
+                        if(items[i].IsCombination())
+                        {
+                            //...set up an array of strings that is split by the coma in items[i]
+                            string[] splitStrings2 = items[i].GetItemName().Split(',');
+                            //for each of the values in the array...
+                            foreach(string s2 in splitStrings2)
+                            {
+                                //...add s to the empty string
+                                singleOrCombinationName2 += s2;
+                            }
+                        }
+                        //if the item is not a combination...
+                        else
+                        {
+                            //...just assign the item name to combinationWithoutComas
+                            singleOrCombinationName2 = items[i].GetItemName();
+                        }
+                        //set up a sprite that is retrieved from ther Resources folder based on item[i]'s name
+                        Sprite itemSprite2 = Resources.Load<Sprite>(string.Format("VegetableSprites/{0}", singleOrCombinationName2));
+                        //assign the sprite to the slots of the player inventory
+                        bluePlayerInventoryItems[i].sprite = itemSprite2;
                     }
                     break;
             }
         }
-        //otherwise...
+        //if we're the red player...
         else
         {
-            //switch statement based on the input's count
+            //...switch statement
             switch (items.Count)
             {
                 //if we don't have anything in our inventory...
                 case 0:
-                    //run through this twice
+                    //...run through this twice
                     for (int i = 0; i < 2; i++)
                     {
-                        //set both inventory items' material to the original material that we stored
-                        redPlayerInventoryItems[i].material = originalInventoryItemMaterial;
+                        //...set both inventory items' sprite to null
+                        redPlayerInventoryItems[i].sprite = null;
                     }
                     break;
+                //if we have one item in our inventory...
                 case 1:
-                    //...set up a material local variable that's assigned to the item's material based on it's name
-                    Material vegetableMaterial1 = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[0].GetItemName());
-                    //assign the material to each of the UI images
-                    redPlayerInventoryItems[1].material = vegetableMaterial1;
-
-                    //assign the original material to the second slot in the player's inventory
-                    redPlayerInventoryItems[0].material = originalInventoryItemMaterial;
+                    //set up a new string that is empty
+                    string singleOrCombinationName = string.Empty;
+                    //if the item is a combination
+                    if (items[0].IsCombination())
+                    {
+                        //...set up an array of strings that is split by the coma in the first item name
+                        string[] splitStrings = items[0].GetItemName().Split(',');
+                        //for each of the values in the array...
+                        foreach (string s in splitStrings)
+                        {
+                            //...add s to the empty string
+                            singleOrCombinationName += s;
+                        }
+                    }
+                    //if the item is not a combination...
+                    else
+                    {
+                        //...just assign the item name to combinationWithoutComas
+                        singleOrCombinationName = items[0].GetItemName();
+                    }
+                    //set up a sprite that is retrieved from the Resources folder based on the combination without comas
+                    Sprite itemSprite = Resources.Load<Sprite>(string.Format("VegetableSprites/{0}", singleOrCombinationName));
+                    //assign the sprite to the first slot in the player's inventory
+                    redPlayerInventoryItems[0].sprite = itemSprite;
                     break;
+                //if we have two items in our inventory...
                 case 2:
-                    //for each of the items given by the input parameter
+                    //set up a string that is empty
+                    string singleOrCombinationName2 = string.Empty;
+                    //...for each of the items in the input parameter...
                     for (int i = 0; i < items.Count; i++)
                     {
-                        //...set up a material local variable that's assigned to the item's material based on it's name
-                        Material vegetableMaterial = GameManager.Instance.vegetableMaterialsSo.GetVegetableMaterial(items[i].GetItemName());
-                        //assign the material to each of the UI images
-                        redPlayerInventoryItems[i].material = vegetableMaterial;
+                        //...if items[i] is a combination...
+                        if (items[i].IsCombination())
+                        {
+                            //...set up an array of strings that is split by the coma in items[i]
+                            string[] splitStrings2 = items[i].GetItemName().Split(',');
+                            //for each of the values in the array...
+                            foreach (string s2 in splitStrings2)
+                            {
+                                //...add s to the empty string
+                                singleOrCombinationName2 += s2;
+                            }
+                        }
+                        //if the item is not a combination...
+                        else
+                        {
+                            //...just assign the item name to combinationWithoutComas
+                            singleOrCombinationName2 = items[i].GetItemName();
+                        }
+                        //set up a sprite that is retrieved from ther Resources folder based on item[i]'s name
+                        Sprite itemSprite2 = Resources.Load<Sprite>(string.Format("VegetableSprites/{0}", singleOrCombinationName2));
+                        //assign the sprite to the slots of the player inventory
+                        redPlayerInventoryItems[i].sprite = itemSprite2;
                     }
                     break;
             }

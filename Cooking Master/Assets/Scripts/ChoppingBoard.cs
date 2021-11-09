@@ -10,6 +10,8 @@ public class ChoppingBoard : MonoBehaviour
     public Item itemBeingChopped;
     //reference for chopped items
     public List<Item> choppedItems;
+    //does the chopping board have a combination?
+    public bool hasCombination = false;
 
     //reference for current time chopping
     public float currentTimeChopping = 4f;
@@ -107,6 +109,8 @@ public class ChoppingBoard : MonoBehaviour
                 //add the new item to the chopped items
                 choppedItems.Add(twoCombination);
                 choppedItems.RemoveAt(0);
+                //we have a combination
+                hasCombination = true;
                 break;
             //or if we have two items already chopped...
             case 2:
@@ -115,6 +119,8 @@ public class ChoppingBoard : MonoBehaviour
                 //add the new item to the chopped items
                 choppedItems.Add(threeCombination);
                 choppedItems.RemoveRange(0, 1);
+                //we have a combination
+                hasCombination = true;
                 break;
         }
        
