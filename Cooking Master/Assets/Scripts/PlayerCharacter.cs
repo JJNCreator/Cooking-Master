@@ -292,7 +292,10 @@ public class PlayerCharacter : MonoBehaviour
     }
     private void InteractWithCustomer()
     {
-        //TODO: Set up interaction with currently detected customer
+        //set up a reference for the currently detected customer's Customer component
+        Customer customerReference = currentlyDetectedCustomer.GetComponent<Customer>();
+        //call the customer's function to compare names
+        customerReference.DetermineBehaviour(currentlyPickedUpItems[0].GetItemName(), isBluePlayer);
     }
     private void OnTriggerEnter(Collider other)
     {

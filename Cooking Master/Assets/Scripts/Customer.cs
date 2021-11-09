@@ -4,8 +4,21 @@ using UnityEngine;
 
 public class Customer : MonoBehaviour
 {
+    public enum CustomerBehaviour
+    {
+        Satisfied,
+        Waiting,
+        Angry,
+        Leave
+    }
+    //reference for current behaviour
+    public CustomerBehaviour currentBehaviour;
+    //did this customer interact with the blue player?
+    public bool interactedWithBluePlayer;
     //reference for waiting time
     public float defaultWaitingTime = 25f;
+    //reference for current time waiting
+    public float currentTimeWaiting;
     //reference for requested combination
     public string requestedCombination;
     //reference for comnbination indicator plane
@@ -21,8 +34,11 @@ public class Customer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //set the customer's behaviour to waiting
+        currentBehaviour = CustomerBehaviour.Waiting;
         //get a random combination
         requestedCombination = cCombinations.GetRandomCombination();
+        //Set the indicator plane based on the request
         SetIndicatorTextureBasedOnRequest();
     }
 
@@ -30,6 +46,27 @@ public class Customer : MonoBehaviour
     void Update()
     {
         
+    }
+    public void DetermineBehaviour(string itemNameFromPlayer, bool blueOrRed)
+    {
+        //set this customer's interactWithBluePlayer based on the provided boolean
+        interactedWithBluePlayer = blueOrRed;
+        //if the item name matches the requested combination...
+        if(itemNameFromPlayer == requestedCombination)
+        {
+            //...customer is satisfied!
+            currentBehaviour = CustomerBehaviour.Satisfied;
+        }
+        //otherwise...
+        else
+        {
+            //...customer is FURIOUS
+            currentBehaviour = CustomerBehaviour.Angry;
+            //TODO: Speed up the wait time here
+        }
+
+        //set the game manager's code based on this customer's behaviour
+        GameManager.Instance.DetermineCustomerBehaviourAfterInteraction(currentBehaviour, this.gameObject);
     }
     private void SetIndicatorTextureBasedOnRequest()
     {

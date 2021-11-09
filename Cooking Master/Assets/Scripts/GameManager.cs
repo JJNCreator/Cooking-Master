@@ -62,8 +62,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SpawnPlayers();
-        TestSpawnVegetables();
-        TestCustomerSpawn();
+        InitSpawnVegetables();
+        SpawnCustomer();
     }
 
     // Update is called once per frame
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void TestSpawnVegetables()
+    private void InitSpawnVegetables()
     {
         SpawnVegetableAtSpawn(Vegetable.VegetableType.Spinach);
         SpawnVegetableAtSpawn(Vegetable.VegetableType.Carrot);
@@ -81,14 +81,6 @@ public class GameManager : MonoBehaviour
         SpawnVegetableAtSpawn(Vegetable.VegetableType.Onion);
         SpawnVegetableAtSpawn(Vegetable.VegetableType.Tomato);
 
-    }
-    private void TestCustomerSpawn()
-    {
-        for(int i = 0; i < customerSpawnPoints.Length; i++)
-        {
-            GameObject spawnPoint = customerSpawnPoints[i];
-            GameObject go = Instantiate((GameObject)Resources.Load("Customer"), spawnPoint.transform.position, spawnPoint.transform.rotation);
-        }
     }
 
     public void RespawnVegetable(Vegetable.VegetableType typeToSpawn)
@@ -158,6 +150,7 @@ public class GameManager : MonoBehaviour
         Instantiate((GameObject)Resources.Load("Vegetables/Onion"), onionSpawnPoint.transform.position, onionSpawnPoint.transform.rotation);
     }
     #endregion
+
     #region PLAYERS
     public void UpdatePlayerScore(int amount, bool bluePlayer)
     {
@@ -201,6 +194,77 @@ public class GameManager : MonoBehaviour
         GameObject spawnRed = Instantiate((GameObject)Resources.Load("RedPlayer"), redPlayerSpawnPoint.transform.position, redPlayerSpawnPoint.transform.rotation);
         //assign the red player reference to the above local variable
         redPlayerRef = spawnRed.GetComponent<PlayerCharacter>();
+    }
+    #endregion
+
+    #region CUSTOMERS
+
+    public void SpawnCustomer()
+    {
+        //get all the available customer spawn points
+        GameObject[] availableSpawnPoints = AvailableCustomerSpawnPoints();
+        //for each of the spawn points
+        foreach(GameObject s in availableSpawnPoints)
+        {
+            //spawn a customer at s position and rotation
+            GameObject customer = Instantiate((GameObject)Resources.Load("Customer"), s.transform.position, s.transform.rotation);
+            //set the customer's parent to the spawn point
+            customer.transform.SetParent(s.transform, true);
+        }
+    }
+
+    public void DetermineCustomerBehaviourAfterInteraction(Customer.CustomerBehaviour behaviour, GameObject go)
+    {
+        //switch statement
+        switch(behaviour)
+        {
+            //satisfied
+            case Customer.CustomerBehaviour.Satisfied:
+                break;
+            //angry
+            case Customer.CustomerBehaviour.Angry:
+                break;
+            //leaving
+            case Customer.CustomerBehaviour.Leave:
+                break;
+        }
+    }
+
+    private IEnumerator OnCustomerSatisfied(GameObject go)
+    {
+        //get the boolean for whether this customer interacted with blue or red player
+        bool blueOrRed = go.GetComponent<Customer>().interactedWithBluePlayer;
+        //update the score of the player who satisfied the customer (go)
+        UpdatePlayerScore(+10, blueOrRed);
+
+        //TODO: Set up spawning pick ups, taking into account the blueOrRed value
+
+        //Destory the customer
+        Destroy(go);
+
+        //yield return wait for four seconds
+        yield return new WaitForSeconds(4f);
+
+        //spawn another customer
+        SpawnCustomer();
+    }
+
+    private GameObject[] AvailableCustomerSpawnPoints()
+    {
+        //set up a new list of GameObjects
+        List<GameObject> spawnPointsTemp = new List<GameObject>();
+        //for each of the customer spawn points
+        foreach (GameObject spawn in customerSpawnPoints)
+        {
+            //if spawn's child count is zero...
+            if (spawn.transform.childCount == 0)
+            {
+                //...add spawn to the list
+                spawnPointsTemp.Add(spawn);
+            }
+        }
+        //return the list as an array
+        return spawnPointsTemp.ToArray();
     }
     #endregion
 }
