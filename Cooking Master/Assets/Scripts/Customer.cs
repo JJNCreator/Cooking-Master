@@ -34,6 +34,8 @@ public class Customer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //set the current waiting time to the default waiting time
+        currentTimeWaiting = defaultWaitingTime;
         //set the customer's behaviour to waiting
         currentBehaviour = CustomerBehaviour.Waiting;
         //get a random combination
@@ -45,7 +47,53 @@ public class Customer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //if our current waiting time is greater than zero...
+        if(currentTimeWaiting > 0)
+        {
+            //...if we're angry...
+            if(currentBehaviour == CustomerBehaviour.Angry)
+            {
+                //...subtract our current waiting time by time.deltatime * 1.5
+                currentTimeWaiting -= Time.deltaTime * 1.5f;
+            }
+            //...if we're just waiting...
+            else
+            {
+                //...subtract it by time.deltatime * 1
+                currentTimeWaiting -= Time.deltaTime * 1f;
+            }
+        }
+        //if our waiting time is less than or equal to zero...
+        if(currentTimeWaiting <= 0)
+        {
+            //...and we're either waiting or angry...
+            if(currentBehaviour == CustomerBehaviour.Waiting || currentBehaviour == CustomerBehaviour.Angry)
+            {
+                //...call OnCustomerLeft
+                OnCustomerLeft();
+            }
+        }
+    }
+    private void OnCustomerLeft()
+    {
+        //set up a float for doubling minus points
+        int doubleModifier = 2;
+        //switch statement
+        switch(currentBehaviour)
+        {
+            //we're angry
+            case CustomerBehaviour.Angry:
+                //subtract double points from the player who delivered the wrong meal
+                GameManager.Instance.UpdatePlayerScore(-5 * doubleModifier, interactedWithBluePlayer);
+                break;
+            //we're waiting
+            case CustomerBehaviour.Waiting:
+                //subtract points from both players
+                GameManager.Instance.UpdatePlayerScore(-5, true);
+                GameManager.Instance.UpdatePlayerScore(-5, false);
+                break;
+        }
+        GameManager.Instance.DestroyCustomer(this.gameObject);
     }
     public void DetermineBehaviour(string itemNameFromPlayer, bool blueOrRed)
     {

@@ -64,6 +64,9 @@ public class GameManager : MonoBehaviour
         SpawnPlayers();
         InitSpawnVegetables();
         SpawnCustomer();
+
+        UIManager.Instance.UpdatePlayerScore(bluePlayerScore, true);
+        UIManager.Instance.UpdatePlayerScore(redPlayerScore, false);
     }
 
     // Update is called once per frame
@@ -220,6 +223,7 @@ public class GameManager : MonoBehaviour
         {
             //satisfied
             case Customer.CustomerBehaviour.Satisfied:
+                StartCoroutine(OnCustomerSatisfied(go));
                 break;
             //angry
             case Customer.CustomerBehaviour.Angry:
@@ -228,6 +232,19 @@ public class GameManager : MonoBehaviour
             case Customer.CustomerBehaviour.Leave:
                 break;
         }
+    }
+
+    public void DestroyCustomer(GameObject go)
+    {
+        StartCoroutine(DestroyCustomer_Coroutine(go));
+    }
+    private IEnumerator DestroyCustomer_Coroutine(GameObject go)
+    {
+        Destroy(go);
+
+        yield return new WaitForSeconds(4f);
+
+        SpawnCustomer();
     }
 
     private IEnumerator OnCustomerSatisfied(GameObject go)
