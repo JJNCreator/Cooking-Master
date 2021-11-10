@@ -32,7 +32,7 @@ public class PlayerCharacter : MonoBehaviour
 
     //references for current possible interaction
     public string currentPossibleInteraction;
-   
+
     //reference for movement vector
     private Vector2 movementVector;
 
@@ -77,18 +77,6 @@ public class PlayerCharacter : MonoBehaviour
         //Disable player actions
         playerActions.Disable();
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void FixedUpdate()
     {
         //Move the character
@@ -104,7 +92,7 @@ public class PlayerCharacter : MonoBehaviour
         //Initiate
         playerActions = new PlayerActions();
         //If we're the blue player...
-        if(isBluePlayer)
+        if (isBluePlayer)
         {
             playerActions.BluePlayer.Movement.performed += ctx =>
             {
@@ -129,7 +117,7 @@ public class PlayerCharacter : MonoBehaviour
             playerActions.RedPlayer.Movement.performed += ctx =>
             {
                 //if we can move...
-                if(canMove)
+                if (canMove)
                 {
                     //...then move the character
                     horizontal = ctx.ReadValue<Vector2>().x;
@@ -146,7 +134,7 @@ public class PlayerCharacter : MonoBehaviour
     private void Interact(string tagForInteractingObject)
     {
         //switch case
-        switch(tagForInteractingObject)
+        switch (tagForInteractingObject)
         {
             //Vegetable
             case "Vegetable":
@@ -175,7 +163,7 @@ public class PlayerCharacter : MonoBehaviour
     private void PickUpVegetable()
     {
         //if our inventory is full...
-        if(currentlyPickedUpItems.Count >= maxItemCount)
+        if (currentlyPickedUpItems.Count >= maxItemCount)
         {
             //...return
             Debug.Log("PlayerCharacter:PickUpVegetable() - inventory is full.");
@@ -189,7 +177,7 @@ public class PlayerCharacter : MonoBehaviour
             //...make a local variable that's assigned to the type of the detected item
             Vegetable.VegetableType vType = currentlyDetectedVegetable.GetComponent<Vegetable>().type;
             //switch case for determining which item will be added to the player's inventory
-            switch(vType)
+            switch (vType)
             {
                 case Vegetable.VegetableType.Spinach:
                     vegetableItem = new Item("Spinach", false);
@@ -227,10 +215,10 @@ public class PlayerCharacter : MonoBehaviour
     private void PutItemsInTrashCan()
     {
         //for each of the items in our inventory
-        foreach(Item i in currentlyPickedUpItems)
+        foreach (Item i in currentlyPickedUpItems)
         {
             //if one of them is a combination...
-            if(i.IsCombination())
+            if (i.IsCombination())
             {
                 //...deduct some points for this player only
                 GameManager.Instance.UpdatePlayerScore(-5, isBluePlayer);
@@ -247,7 +235,7 @@ public class PlayerCharacter : MonoBehaviour
         //reference for first item in player's inventory
         Item firstItemInInventory = Item.EmptyItem();
         //if we have something in our inventory...
-        if(currentlyPickedUpItems.Count > 0)
+        if (currentlyPickedUpItems.Count > 0)
         {
             //...set it to the item in the first slot
             firstItemInInventory = currentlyPickedUpItems[0];
@@ -255,7 +243,7 @@ public class PlayerCharacter : MonoBehaviour
         //reference for plate component
         Plate detectedPlate = currentlyDetectedPlate.GetComponent<Plate>();
         //if there's nothing on the plate...
-        if(detectedPlate.currentItemBeingHeld.GetItemName() == string.Empty)
+        if (detectedPlate.currentItemBeingHeld.GetItemName() == string.Empty)
         {
             Debug.Log("PlayerCharacter:InteractWithPlate() - No item on plate");
             //...assign the plate's item to the inventory's first item
@@ -281,10 +269,10 @@ public class PlayerCharacter : MonoBehaviour
         ChoppingBoard choppingBoardReference = currentlyDetectedChoppingBoard.GetComponent<ChoppingBoard>();
 
         //if this chopping board has a combined item...
-        if(choppingBoardReference.hasCombination)
+        if (choppingBoardReference.hasCombination)
         {
             //if this player doesn't have any items in their inventory...
-            if(currentlyPickedUpItems.Count == 0)
+            if (currentlyPickedUpItems.Count == 0)
             {
                 //add the item to this player's inventory
                 currentlyPickedUpItems.Add(choppingBoardReference.choppedItems[0]);
@@ -338,29 +326,29 @@ public class PlayerCharacter : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //enable vegetable interaction if collider tag is Vegetable
-        if(other.CompareTag("Vegetable"))
+        if (other.CompareTag("Vegetable"))
         {
             currentPossibleInteraction = "Vegetable";
             currentlyDetectedVegetable = other.gameObject;
         }
         //enable customer interaction if collider tag is Customer
-        if(other.CompareTag("Customer"))
+        if (other.CompareTag("Customer"))
         {
             currentPossibleInteraction = "Customer";
             currentlyDetectedCustomer = other.gameObject;
         }
         //enable chopping board interaction if collider tag is ChoppingBoard
-        if(other.CompareTag("ChoppingBoard"))
+        if (other.CompareTag("ChoppingBoard"))
         {
             currentPossibleInteraction = "ChoppingBoard";
             currentlyDetectedChoppingBoard = other.gameObject;
         }
         //enable trash can interaction if collider tag is TrashCan
-        if(other.CompareTag("TrashCan"))
+        if (other.CompareTag("TrashCan"))
         {
             currentPossibleInteraction = "TrashCan";
         }
-        if(other.CompareTag("Plate"))
+        if (other.CompareTag("Plate"))
         {
             currentPossibleInteraction = "Plate";
             currentlyDetectedPlate = other.gameObject;
@@ -369,19 +357,19 @@ public class PlayerCharacter : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         currentPossibleInteraction = string.Empty;
-        if(other.CompareTag("Vegetable"))
+        if (other.CompareTag("Vegetable"))
         {
             currentlyDetectedVegetable = null;
         }
-        if(other.CompareTag("ChoppingBoard"))
+        if (other.CompareTag("ChoppingBoard"))
         {
             currentlyDetectedChoppingBoard = null;
         }
-        if(other.CompareTag("Customer"))
+        if (other.CompareTag("Customer"))
         {
             currentlyDetectedCustomer = null;
         }
-        if(other.CompareTag("Plate"))
+        if (other.CompareTag("Plate"))
         {
             currentlyDetectedPlate = null;
         }

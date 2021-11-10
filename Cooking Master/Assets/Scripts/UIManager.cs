@@ -45,24 +45,18 @@ public class UIManager : MonoBehaviour
             return instance;
         }
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
     public void UpdatePlayerInventory(List<Item> items, bool bluePlayer)
     {
         //if we're the blue player...
-        if(bluePlayer)
+        if (bluePlayer)
         {
             //switch statement
-            switch(items.Count)
+            switch (items.Count)
             {
                 //if item count is zero...
                 case 0:
                     //...run through this twice...
-                    for(int i = 0; i < 2; i++)
+                    for (int i = 0; i < 2; i++)
                     {
                         //...set the blue player's inventory sprites to null
                         bluePlayerInventoryItems[i].UpdateSlot(string.Empty);
@@ -123,10 +117,10 @@ public class UIManager : MonoBehaviour
     public void UpdatePlayerTime(bool bluePlayer)
     {
         //if we're the blue player...
-        if(bluePlayer)
+        if (bluePlayer)
         {
             //...if the blue player time UI exists...
-            if(bluePlayerTimeText != null)
+            if (bluePlayerTimeText != null)
             {
                 //...set its text as an integer of the blue player's time from Game Manager
                 bluePlayerTimeText.text = string.Format("Time: {0}s", (int)GameManager.Instance.bluePlayerTime);
@@ -136,7 +130,7 @@ public class UIManager : MonoBehaviour
         else
         {
             //...if the red player time UI exists...
-            if(redPlayerTimeText != null)
+            if (redPlayerTimeText != null)
             {
                 //...set its text as an integer of the red player's time from Game Manager
                 redPlayerTimeText.text = string.Format("Time: {0}s", (int)GameManager.Instance.redPlayerTime);
@@ -147,10 +141,10 @@ public class UIManager : MonoBehaviour
     public void UpdatePlayerScore(int newScore, bool bluePlayer)
     {
         //if we're the blue player...
-        if(bluePlayer)
+        if (bluePlayer)
         {
             //...set the text of the blue player score to say Score: newScore
-            if(bluePlayerScoreText != null)
+            if (bluePlayerScoreText != null)
             {
                 bluePlayerScoreText.text = string.Format("Score: {0}", newScore.ToString());
             }
@@ -159,7 +153,7 @@ public class UIManager : MonoBehaviour
         else
         {
             //...set the text of the red player score to say Score: newScore
-            if(redPlayerScoreText != null)
+            if (redPlayerScoreText != null)
             {
                 redPlayerScoreText.text = string.Format("Score: {0}", newScore.ToString());
             }

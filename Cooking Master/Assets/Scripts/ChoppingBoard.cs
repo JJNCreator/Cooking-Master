@@ -22,17 +22,6 @@ public class ChoppingBoard : MonoBehaviour
     {
         choppedItems = new List<Item>();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void InitiateChopping(Item itemFromPlayer, bool wasBluePlayer)
     {
         StartCoroutine(ChoppingCoroutine(itemFromPlayer, wasBluePlayer));
@@ -43,7 +32,7 @@ public class ChoppingBoard : MonoBehaviour
 
         float elapsed = 0;
 
-        while(elapsed < currentTimeChopping)
+        while (elapsed < currentTimeChopping)
         {
             elapsed += Time.deltaTime;
 
@@ -63,7 +52,7 @@ public class ChoppingBoard : MonoBehaviour
         }
 
         //if this is the left chopping board...
-        if(leftChoppingBoard)
+        if (leftChoppingBoard)
         {
             //...set the left chopping board timer to zero
             UIManager.Instance.leftChoppingBoardTimer.fillAmount = 0f;
@@ -80,7 +69,7 @@ public class ChoppingBoard : MonoBehaviour
         //nullify the item being chopped variable
         itemBeingChopped = null;
         //if the blue player dropped off this item...
-        if(wasBluePlayer)
+        if (wasBluePlayer)
         {
             //...enable the blue player's movement
             GameManager.Instance.bluePlayerRef.canMove = true;
@@ -95,7 +84,7 @@ public class ChoppingBoard : MonoBehaviour
 
     private void ChopItemOrCreateCombination(Item choppedItem)
     {
-        switch(choppedItems.Count)
+        switch (choppedItems.Count)
         {
             //if we have no chopped items...
             case 0:
@@ -123,10 +112,5 @@ public class ChoppingBoard : MonoBehaviour
                 hasCombination = true;
                 break;
         }
-       
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        
     }
 }

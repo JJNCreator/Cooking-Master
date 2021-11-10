@@ -35,7 +35,7 @@ public class Customer : MonoBehaviour
     public Renderer[] doubleComboPlanes;
     //reference for array of triple combo planes
     public Renderer[] tripleComboPlanes;
-    
+
     //reference for this customer's Renderer
     private Renderer rendererCom;
     //reference for red Color
@@ -56,7 +56,7 @@ public class Customer : MonoBehaviour
     {
         //store this customer's original material color
         originalColor = rendererCom.material.GetColor("_BaseColor");
-       
+
         //set the customer's behaviour to waiting
         currentBehaviour = CustomerBehaviour.Waiting;
         //get a random combination
@@ -72,10 +72,10 @@ public class Customer : MonoBehaviour
     void Update()
     {
         //if our current waiting time is greater than zero...
-        if(currentTimeWaiting > 0)
+        if (currentTimeWaiting > 0)
         {
             //...if we're angry...
-            if(currentBehaviour == CustomerBehaviour.Angry)
+            if (currentBehaviour == CustomerBehaviour.Angry)
             {
                 //...subtract our current waiting time by time.deltatime * 1.5
                 currentTimeWaiting -= Time.deltaTime * 1.5f;
@@ -89,18 +89,18 @@ public class Customer : MonoBehaviour
             //lerp between this customer's original color and the red one based on the amount of time we have left
             rendererCom.material.SetColor("_BaseColor", Color.Lerp(originalColor, redColor, t));
             //if t is below the end limit...
-            if(t < 1)
+            if (t < 1)
             {
                 //...add to t time.deltatime divided by our current waiting time
                 t += Time.deltaTime / currentTimeWaiting;
             }
-          
+
         }
         //if our waiting time is less than or equal to zero...
-        if(currentTimeWaiting <= 0)
+        if (currentTimeWaiting <= 0)
         {
             //...and we're either waiting or angry...
-            if(currentBehaviour == CustomerBehaviour.Waiting || currentBehaviour == CustomerBehaviour.Angry)
+            if (currentBehaviour == CustomerBehaviour.Waiting || currentBehaviour == CustomerBehaviour.Angry)
             {
                 //...call OnCustomerLeft
                 OnCustomerLeft();
@@ -112,7 +112,7 @@ public class Customer : MonoBehaviour
         //set up a float for doubling minus points
         int doubleModifier = 2;
         //switch statement
-        switch(currentBehaviour)
+        switch (currentBehaviour)
         {
             //we're satisifed
             //we're angry
@@ -139,12 +139,12 @@ public class Customer : MonoBehaviour
         //set this customer's interactWithBluePlayer based on the provided boolean
         interactedWithBluePlayer = blueOrRed;
         //if the item name matches the requested combination...
-        if(itemNameFromPlayer == requestedCombination)
+        if (itemNameFromPlayer == requestedCombination)
         {
             //...customer is satisfied!
             currentBehaviour = CustomerBehaviour.Satisfied;
             //if we delivered before seventy percent of the waiting time...
-            if(currentTimeWaiting > SeventyPercentOf())
+            if (currentTimeWaiting > SeventyPercentOf())
             {
                 Debug.Log("Customer:DetermineBehaviour() - delivered withing 70% of the waiting time! Here's a pickup!");
                 GameManager.Instance.SpawnPickup(interactedWithBluePlayer);
@@ -178,7 +178,7 @@ public class Customer : MonoBehaviour
         //set up a random integer between 0 and 2 (inclusive)
         int randomInteger = Random.Range(0, 2);
         //switch
-        switch(randomInteger)
+        switch (randomInteger)
         {
             case 0:
                 returnValue = string.Format("{0},{1}", vegetableNames[Random.Range(0, vegetableNames.Length)], vegetableNames[Random.Range(0, vegetableNames.Length)]);
@@ -258,16 +258,16 @@ public class Customer : MonoBehaviour
     private void TogglePlanes(bool triple)
     {
         //if we're requesting a triple combination...
-        if(triple)
+        if (triple)
         {
             //...if the double parent exists...
-            if(doubleComboParent != null)
+            if (doubleComboParent != null)
             {
                 //...disable it
                 doubleComboParent.SetActive(false);
             }
             //if the triple parent exists...
-            if(tripleComboParent != null)
+            if (tripleComboParent != null)
             {
                 //...enable it
                 tripleComboParent.SetActive(true);
@@ -288,26 +288,6 @@ public class Customer : MonoBehaviour
                 //...disable it
                 tripleComboParent.SetActive(false);
             }
-        }
-    }
-    private void SetIndicatorTextureBasedOnRequest()
-    {
-        //list of split strings from requested combination
-        string[] splitStrings = requestedCombination.Split(',');
-        //set up a new string
-        string combinationWithoutComa = string.Empty;
-        //for each of the split strings...
-        foreach(string s in splitStrings)
-        {
-            //...add s to the new string above
-            combinationWithoutComa += s;
-        }
-
-        //if the plane exists...
-        if(combinationIndicatorPlane != null)
-        {
-            //...then set its texture to the one based on the new string. Load from Resources.
-            combinationIndicatorPlane.GetComponent<Renderer>().material.SetTexture("_BaseMap", (Texture2D)Resources.Load(string.Format("VegetableCombinations/Textures/{0}", combinationWithoutComa)));
         }
     }
 }

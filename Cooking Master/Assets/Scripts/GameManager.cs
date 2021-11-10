@@ -16,8 +16,6 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-    [Header("Vegetable Materials")]
-    public VegetableMaterialsSO vegetableMaterialsSo;
     [Header("Spawn points")]
     //array of spawn points for customers
     public GameObject[] customerSpawnPoints;
@@ -74,13 +72,13 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //if the blue player's time is greater than zero...
-        if(bluePlayerTime > 0)
+        if (bluePlayerTime > 0)
         {
             //...subtract one from it every second
             bluePlayerTime -= Time.deltaTime * 1f;
         }
         //if the blue player's time is less than or equal to zero...
-        if(bluePlayerTime <= 0)
+        if (bluePlayerTime <= 0)
         {
             //...disable the blue player's movement
             bluePlayerRef.canMove = false;
@@ -101,41 +99,12 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.UpdatePlayerTime(true);
         UIManager.Instance.UpdatePlayerTime(false);
         //if both players ran out of time...
-        if(bluePlayerTime <= 0 && redPlayerTime <= 0)
+        if (bluePlayerTime <= 0 && redPlayerTime <= 0)
         {
             //...enable the endgame UI
             UIManager.Instance.endUI.SetActive(true);
         }
     }
-
-    private void InitSpawnVegetables()
-    {
-        SpawnVegetableAtSpawn(Vegetable.VegetableType.Spinach);
-        SpawnVegetableAtSpawn(Vegetable.VegetableType.Carrot);
-        SpawnVegetableAtSpawn(Vegetable.VegetableType.Celery);
-        SpawnVegetableAtSpawn(Vegetable.VegetableType.Lettuce);
-        SpawnVegetableAtSpawn(Vegetable.VegetableType.Onion);
-        SpawnVegetableAtSpawn(Vegetable.VegetableType.Tomato);
-
-    }
-
-    private void StartPlayerTimers()
-    {
-        bluePlayerTime = 120f;
-        redPlayerTime = 120f;
-    }
-
-    public void RespawnVegetable(Vegetable.VegetableType typeToSpawn)
-    {
-        StartCoroutine(RespawnVegetableCoroutine(typeToSpawn));
-    }
-    private IEnumerator RespawnVegetableCoroutine(Vegetable.VegetableType type)
-    {
-        yield return new WaitForSeconds(2f);
-
-        SpawnVegetableAtSpawn(type);
-    }
-
     public void SpawnPickup(bool forBluePlayer)
     {
         //set up an array of strings that contains the different pickup names
@@ -154,11 +123,31 @@ public class GameManager : MonoBehaviour
         //determine whether it can be picked up by the blue player or the red player
         go.GetComponent<Pickup>().canBePickedUpByBluePlayer = forBluePlayer;
     }
-   
-    #region SPAWN_VEGETABLES
+
+    #region VEGETABLES
+    private void InitSpawnVegetables()
+    {
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Spinach);
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Carrot);
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Celery);
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Lettuce);
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Onion);
+        SpawnVegetableAtSpawn(Vegetable.VegetableType.Tomato);
+
+    }
+    public void RespawnVegetable(Vegetable.VegetableType typeToSpawn)
+    {
+        StartCoroutine(RespawnVegetableCoroutine(typeToSpawn));
+    }
+    private IEnumerator RespawnVegetableCoroutine(Vegetable.VegetableType type)
+    {
+        yield return new WaitForSeconds(2f);
+
+        SpawnVegetableAtSpawn(type);
+    }
     public void SpawnVegetableAtSpawn(Vegetable.VegetableType vType)
     {
-        switch(vType)
+        switch (vType)
         {
             case Vegetable.VegetableType.Spinach:
                 SpawnSpinach();
@@ -216,12 +205,12 @@ public class GameManager : MonoBehaviour
     public void UpdatePlayerScore(int amount, bool bluePlayer)
     {
         //if we're the blue player...
-        if(bluePlayer)
+        if (bluePlayer)
         {
             //...add the amount to the blue player's score
             bluePlayerScore += amount;
             //if our score is less than zero...
-            if(bluePlayerScore < 0)
+            if (bluePlayerScore < 0)
             {
                 //...set the blue score to zero
                 bluePlayerScore = 0;
@@ -235,7 +224,7 @@ public class GameManager : MonoBehaviour
             //...add it to the red player's score
             redPlayerScore += amount;
             //if it goes below zero, set it to zero
-            if(redPlayerScore < 0)
+            if (redPlayerScore < 0)
             {
                 redPlayerScore = 0;
             }
@@ -256,6 +245,11 @@ public class GameManager : MonoBehaviour
         //assign the red player reference to the above local variable
         redPlayerRef = spawnRed.GetComponent<PlayerCharacter>();
     }
+    private void StartPlayerTimers()
+    {
+        bluePlayerTime = 120f;
+        redPlayerTime = 120f;
+    }
     #endregion
 
     #region CUSTOMERS
@@ -265,7 +259,7 @@ public class GameManager : MonoBehaviour
         //get all the available customer spawn points
         GameObject[] availableSpawnPoints = AvailableCustomerSpawnPoints();
         //for each of the spawn points
-        foreach(GameObject s in availableSpawnPoints)
+        foreach (GameObject s in availableSpawnPoints)
         {
             //spawn a customer at s position and rotation
             GameObject customer = Instantiate((GameObject)Resources.Load("Customer"), s.transform.position, s.transform.rotation);
@@ -277,7 +271,7 @@ public class GameManager : MonoBehaviour
     public void DetermineCustomerBehaviourAfterInteraction(Customer.CustomerBehaviour behaviour, GameObject go)
     {
         //switch statement
-        switch(behaviour)
+        switch (behaviour)
         {
             //satisfied
             case Customer.CustomerBehaviour.Satisfied:

@@ -16,20 +16,20 @@ public class Pickup : MonoBehaviour
     public bool canBePickedUpByBluePlayer;
     //has the player picked up this item?
     private bool hasPickedUpItem = false;
-   
+
     private void InitiateAbility(bool bluePlayer)
     {
         //set the player character for this initiation to blue
         PlayerCharacter player = GameManager.Instance.bluePlayerRef;
         //if we're the red player...
-        if(!bluePlayer)
+        if (!bluePlayer)
         {
             //...set the player character to red
             player = GameManager.Instance.redPlayerRef;
         }
 
         //switch statement for the pickup type
-        switch(type)
+        switch (type)
         {
             //Speed
             case PickupType.Speed:
@@ -40,7 +40,7 @@ public class Pickup : MonoBehaviour
             //Time
             case PickupType.Time:
                 //if we're the blue player...
-                if(bluePlayer)
+                if (bluePlayer)
                 {
                     //...increase the blue player's time
                     GameManager.Instance.bluePlayerTime += 20f;
@@ -62,7 +62,7 @@ public class Pickup : MonoBehaviour
                 break;
         }
 
-       
+
     }
     private IEnumerator IncreasePlayerSpeedTemporarily(PlayerCharacter pc)
     {
@@ -81,10 +81,10 @@ public class Pickup : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //if the colliding object is a player...
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             //if we haven't already picked up this item...
-            if(!hasPickedUpItem)
+            if (!hasPickedUpItem)
             {
                 //...if this can be picked up by the blue player...
                 if (other.gameObject.GetComponent<PlayerCharacter>().isBluePlayer && canBePickedUpByBluePlayer)

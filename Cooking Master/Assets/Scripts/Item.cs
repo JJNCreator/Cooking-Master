@@ -6,9 +6,9 @@ using UnityEngine;
 public class Item
 {
     //reference for item name
-    [SerializeField]private string itemName;
+    [SerializeField] private string itemName;
     //reference for whether this item is a combination
-    [SerializeField]private bool isCombination;
+    [SerializeField] private bool isCombination;
 
     public Item(string n, bool c)
     {
