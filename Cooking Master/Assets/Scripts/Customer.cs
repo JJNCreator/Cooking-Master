@@ -71,39 +71,43 @@ public class Customer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if our current waiting time is greater than zero...
-        if (currentTimeWaiting > 0)
+        //if the game is in progress...
+        if(GameManager.Instance.CurrentGameState == GameManager.GameState.InProgress)
         {
-            //...if we're angry...
-            if (currentBehaviour == CustomerBehaviour.Angry)
+            //if our current waiting time is greater than zero...
+            if (currentTimeWaiting > 0)
             {
-                //...subtract our current waiting time by time.deltatime * 1.5
-                currentTimeWaiting -= Time.deltaTime * 1.5f;
-            }
-            //...if we're just waiting...
-            else
-            {
-                //...subtract it by time.deltatime * 1
-                currentTimeWaiting -= Time.deltaTime * 1f;
-            }
-            //lerp between this customer's original color and the red one based on the amount of time we have left
-            rendererCom.material.SetColor("_BaseColor", Color.Lerp(originalColor, redColor, t));
-            //if t is below the end limit...
-            if (t < 1)
-            {
-                //...add to t time.deltatime divided by our current waiting time
-                t += Time.deltaTime / currentTimeWaiting;
-            }
+                //...if we're angry...
+                if (currentBehaviour == CustomerBehaviour.Angry)
+                {
+                    //...subtract our current waiting time by time.deltatime * 1.5
+                    currentTimeWaiting -= Time.deltaTime * 1.5f;
+                }
+                //...if we're just waiting...
+                else
+                {
+                    //...subtract it by time.deltatime * 1
+                    currentTimeWaiting -= Time.deltaTime * 1f;
+                }
+                //lerp between this customer's original color and the red one based on the amount of time we have left
+                rendererCom.material.SetColor("_BaseColor", Color.Lerp(originalColor, redColor, t));
+                //if t is below the end limit...
+                if (t < 1)
+                {
+                    //...add to t time.deltatime divided by our current waiting time
+                    t += Time.deltaTime / currentTimeWaiting;
+                }
 
-        }
-        //if our waiting time is less than or equal to zero...
-        if (currentTimeWaiting <= 0)
-        {
-            //...and we're either waiting or angry...
-            if (currentBehaviour == CustomerBehaviour.Waiting || currentBehaviour == CustomerBehaviour.Angry)
+            }
+            //if our waiting time is less than or equal to zero...
+            if (currentTimeWaiting <= 0)
             {
-                //...call OnCustomerLeft
-                OnCustomerLeft();
+                //...and we're either waiting or angry...
+                if (currentBehaviour == CustomerBehaviour.Waiting || currentBehaviour == CustomerBehaviour.Angry)
+                {
+                    //...call OnCustomerLeft
+                    OnCustomerLeft();
+                }
             }
         }
     }

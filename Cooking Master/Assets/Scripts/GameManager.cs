@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GameState
+    {
+        InProgress,
+        Complete
+    }
     //getter for singleton
     private static GameManager instance;
     //Singleton for this class
@@ -14,6 +19,20 @@ public class GameManager : MonoBehaviour
             if (instance == null)
                 instance = FindObjectOfType<GameManager>();
             return instance;
+        }
+    }
+    //reference for current game state
+    [SerializeField]private GameState currentGameState;
+    public GameState CurrentGameState
+    {
+        get
+        {
+            return currentGameState;
+        }
+        set
+        {
+            currentGameState = value;
+            OnGameStateChanged(currentGameState);
         }
     }
     [Header("Spawn points")]
@@ -56,54 +75,87 @@ public class GameManager : MonoBehaviour
     //red player score
     public int redPlayerScore;
 
+    //have we stopped updating after completing?
+    private bool doneCompleting = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        SpawnPlayers();
-        InitSpawnVegetables();
-        SpawnCustomer();
-        StartPlayerTimers();
-
-        UIManager.Instance.UpdatePlayerScore(bluePlayerScore, true);
-        UIManager.Instance.UpdatePlayerScore(redPlayerScore, false);
+        //set the current game state to in progress
+        CurrentGameState = GameState.InProgress;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if the blue player's time is greater than zero...
-        if (bluePlayerTime > 0)
+        //if we're currently in progress...
+        if(CurrentGameState == GameState.InProgress)
         {
-            //...subtract one from it every second
-            bluePlayerTime -= Time.deltaTime * 1f;
+            //if the blue player's time is greater than zero...
+            if (bluePlayerTime > 0)
+            {
+                //...subtract one from it every second
+                bluePlayerTime -= Time.deltaTime * 1f;
+            }
+            //if the blue player's time is less than or equal to zero...
+            if (bluePlayerTime <= 0)
+            {
+                //...disable the blue player's movement
+                bluePlayerRef.canMove = false;
+            }
+            //if the red player's time is greater than zero...
+            if (redPlayerTime > 0)
+            {
+                //...subtract one from it every second
+                redPlayerTime -= Time.deltaTime * 1f;
+            }
+            //if the red player's time is less than or equal to zero...
+            if (redPlayerTime <= 0)
+            {
+                //...disable the red player's movement
+                redPlayerRef.canMove = false;
+            }
+            //update the UI for both players' times
+            UIManager.Instance.UpdatePlayerTime(true);
+            UIManager.Instance.UpdatePlayerTime(false);
         }
-        //if the blue player's time is less than or equal to zero...
-        if (bluePlayerTime <= 0)
+
+        //if we're not done completing...
+        if(!doneCompleting)
         {
-            //...disable the blue player's movement
-            bluePlayerRef.canMove = false;
+            //...if both players ran out of time...
+            if (bluePlayerTime <= 0 && redPlayerTime <= 0)
+            {
+                //...complete the game
+                CurrentGameState = GameState.Complete;
+                //...and we're done completing
+                doneCompleting = true;
+            }
         }
-        //if the red player's time is greater than zero...
-        if (redPlayerTime > 0)
+    }
+    private void OnGameStateChanged(GameState newState)
+    {
+        //switch statement
+        switch(newState)
         {
-            //...subtract one from it every second
-            redPlayerTime -= Time.deltaTime * 1f;
+            //we're in progress
+            case GameState.InProgress:
+                SpawnPlayers();
+                InitSpawnVegetables();
+                SpawnCustomer();
+                StartPlayerTimers();
+                UIManager.Instance.UpdatePlayerScore(bluePlayerScore, true);
+                UIManager.Instance.UpdatePlayerScore(redPlayerScore, false);
+                break;
+            //completed the game
+            case GameState.Complete:
+                bluePlayerRef.canMove = false;
+                redPlayerRef.canMove = false;
+                UIManager.Instance.ToggleEndgameUI();
+                break;
         }
-        //if the red player's time is less than or equal to zero...
-        if (redPlayerTime <= 0)
-        {
-            //...disable the red player's movement
-            redPlayerRef.canMove = false;
-        }
-        //update the UI for both players' times
-        UIManager.Instance.UpdatePlayerTime(true);
-        UIManager.Instance.UpdatePlayerTime(false);
-        //if both players ran out of time...
-        if (bluePlayerTime <= 0 && redPlayerTime <= 0)
-        {
-            //...enable the endgame UI
-            UIManager.Instance.endUI.SetActive(true);
-        }
+
     }
     public void SpawnPickup(bool forBluePlayer)
     {
@@ -253,9 +305,14 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region CUSTOMERS
-
     public void SpawnCustomer()
     {
+        //if we've completed the game...
+        if(currentGameState == GameState.Complete)
+        {
+            //...don't go any further
+            return;
+        }
         //get all the available customer spawn points
         GameObject[] availableSpawnPoints = AvailableCustomerSpawnPoints();
         //for each of the spawn points

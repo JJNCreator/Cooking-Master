@@ -159,6 +159,28 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
+    public void ToggleEndgameUI()
+    {
+        //if our endgame UI exists...
+        if(endUI != null)
+        {
+            //...enable it
+            endUI.SetActive(true);
+            //if the blue player has a higher score than the red player...
+            if(GameManager.Instance.bluePlayerScore > GameManager.Instance.redPlayerScore)
+            {
+                //...find the text child and have it say "Blue player wins!"
+                endUI.transform.Find("Winner").GetComponent<Text>().text = "Blue player wins!";
+            }
+            //otherwise...
+            else
+            {
+                //...have it say "Red player wins!"
+                endUI.transform.Find("Winner").GetComponent<Text>().text = "Red player wins!";
+            }
+        }
+    }
     public void RestartGame()
     {
         //Load the scene we're currently in, effectively reloads this scene
