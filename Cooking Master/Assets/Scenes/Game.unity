@@ -3641,7 +3641,7 @@ MonoBehaviour:
     isCombination: 0
   choppedItems: []
   hasCombination: 0
-  currentTimeChopping: 4
+  currentTimeChopping: 2
 --- !u!1 &1157228313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3999,7 +3999,7 @@ MonoBehaviour:
     isCombination: 0
   choppedItems: []
   hasCombination: 0
-  currentTimeChopping: 4
+  currentTimeChopping: 2
 --- !u!1 &1217249347
 GameObject:
   m_ObjectHideFlags: 0

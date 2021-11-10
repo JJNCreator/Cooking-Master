@@ -135,6 +135,25 @@ public class GameManager : MonoBehaviour
 
         SpawnVegetableAtSpawn(type);
     }
+
+    public void SpawnPickup(bool forBluePlayer)
+    {
+        //set up an array of strings that contains the different pickup names
+        string[] pickupItemNames = new string[]
+        {
+            "Score",
+            "Speed",
+            "Time"
+        };
+        //grab a random pickup prefab from Resources
+        GameObject prefab = Resources.Load<GameObject>(string.Format("Pickups/{0}PickUp", pickupItemNames[Random.Range(0, pickupItemNames.Length)]));
+        //get a random pickup spawn point
+        GameObject spawnPoint = pickupSpawnPoints[Random.Range(0, pickupSpawnPoints.Length)];
+        //set up a GameObject that instantiates the pickup item at the spawn point
+        GameObject go = Instantiate(prefab, spawnPoint.transform.position, prefab.transform.rotation);
+        //determine whether it can be picked up by the blue player or the red player
+        go.GetComponent<Pickup>().canBePickedUpByBluePlayer = forBluePlayer;
+    }
    
     #region SPAWN_VEGETABLES
     public void SpawnVegetableAtSpawn(Vegetable.VegetableType vType)

@@ -16,9 +16,9 @@ public class Customer : MonoBehaviour
     //did this customer interact with the blue player?
     public bool interactedWithBluePlayer;
     //reference for waiting time for three ingredients
-    private float waitingTimeForThreeCombo = 40f;
+    private float waitingTimeForThreeCombo = 60f;
     //reference for waiting time for two ingredients
-    private float waitingTimeForTwoCombo = 35f;
+    private float waitingTimeForTwoCombo = 50f;
     //reference for assigned waiting time
     public float assignedWaitingTime;
     //reference for current time waiting
@@ -91,7 +91,7 @@ public class Customer : MonoBehaviour
             //if t is below the end limit...
             if(t < 1)
             {
-                //...add to t time.deltatime divided by our default waiting time
+                //...add to t time.deltatime divided by our current waiting time
                 t += Time.deltaTime / currentTimeWaiting;
             }
           
@@ -132,7 +132,7 @@ public class Customer : MonoBehaviour
     private float SeventyPercentOf()
     {
         //return the following equation: (70/100) * assigned waiting time
-        return ((70 / 100) * assignedWaitingTime);
+        return (70f / 100f) * assignedWaitingTime;
     }
     public void DetermineBehaviour(string itemNameFromPlayer, bool blueOrRed)
     {
@@ -144,10 +144,10 @@ public class Customer : MonoBehaviour
             //...customer is satisfied!
             currentBehaviour = CustomerBehaviour.Satisfied;
             //if we delivered before seventy percent of the waiting time...
-            if(currentTimeWaiting < SeventyPercentOf())
+            if(currentTimeWaiting > SeventyPercentOf())
             {
                 Debug.Log("Customer:DetermineBehaviour() - delivered withing 70% of the waiting time! Here's a pickup!");
-                //TODO: set up pickup call here
+                GameManager.Instance.SpawnPickup(interactedWithBluePlayer);
             }
         }
         //otherwise...

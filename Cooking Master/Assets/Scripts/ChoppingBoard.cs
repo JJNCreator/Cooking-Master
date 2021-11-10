@@ -14,7 +14,7 @@ public class ChoppingBoard : MonoBehaviour
     public bool hasCombination = false;
 
     //reference for current time chopping
-    public float currentTimeChopping = 4f;
+    public float currentTimeChopping = 2f;
 
 
     //Called before Start
