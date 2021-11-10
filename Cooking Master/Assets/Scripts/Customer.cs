@@ -241,8 +241,6 @@ public class Customer : MonoBehaviour
         //for each of the strings in the list...
         for (int i = 0; i < listOfStrings.Count; i++)
         {
-            //...set up a sprite that is retrieved from Resources, using s
-            Sprite itemSprite = Resources.Load<Sprite>(string.Format("VegetableSprites/{0}", listOfStrings[i]));
             //set the sprites by i
             if (!triple)
             {
@@ -253,7 +251,6 @@ public class Customer : MonoBehaviour
                 tripleComboPlanes[i].material.SetTexture("_BaseMap", Resources.Load<Texture>(string.Format("VegetableTextures/{0}", listOfStrings[i])));
             }
         }
-
     }
     private void TogglePlanes(bool triple)
     {

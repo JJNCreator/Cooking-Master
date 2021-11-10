@@ -306,8 +306,6 @@ public class GameManager : MonoBehaviour
         //update the score of the player who satisfied the customer (go)
         UpdatePlayerScore(+10, blueOrRed);
 
-        //TODO: Set up spawning pick ups, taking into account the blueOrRed value
-
         //Destory the customer
         Destroy(go);
 
