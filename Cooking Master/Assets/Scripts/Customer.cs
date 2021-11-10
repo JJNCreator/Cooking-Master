@@ -118,7 +118,6 @@ public class Customer : MonoBehaviour
         //switch statement
         switch (currentBehaviour)
         {
-            //we're satisifed
             //we're angry
             case CustomerBehaviour.Angry:
                 //subtract double points from the player who delivered the wrong meal
