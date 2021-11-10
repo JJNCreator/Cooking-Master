@@ -2,7 +2,7 @@
 
 This is my submission for Tentworks Interactive's interview process. It's a salad chef simulation done in Unity 2019.4.30f1. 
 
----CONTROLS---
+***CONTROLS***
 
 This is a two-player game. Controls are as follows:
 Blue player:
@@ -12,7 +12,7 @@ Red player:
     Movement: Arrow keys
     Interact: K
 
----HOW TO PLAY---
+***HOW TO PLAY***
 
 The goal is to get as many points as possible. This is done by delivering the right salad combinations to the customer that requested it. Customers can order either a combination of two ingredients or three ingredients.  
 The players will:
@@ -26,10 +26,10 @@ The players will:
         - Speed: Increases that player's movement speed for ten seconds
         - Time: adds time to that player's timer
         - Score: add points to that player
-    - Incorrect combination: Customer will become angry and become impatient, causing that customer's time to go down faster. If the angry customer leaves disatisfied, that player will lose double the amount of points.
+    - Incorrect combination: Customer will become angry and impatient, causing that customer's time to go down faster. If the angry customer leaves disatisfied, that player will lose double the amount of points.
 5. Continue this cycle until the timer runs out
 
-IMPORTANT NOTES
+***IMPORTANT NOTES***
 
 - The player must mix the ingredients in the order shown by the customer they are serving. 
 - A trash can is available for players to throw items away. If they throw away a combination, they'll lose points
