@@ -31,17 +31,27 @@ public class Customer : MonoBehaviour
     public Renderer[] doubleComboPlanes;
     //reference for array of triple combo planes
     public Renderer[] tripleComboPlanes;
-    //reference for CustomerCombinations object
-    private CustomerCombinations cCombinations;
+    
+    //reference for this customer's Renderer
+    private Renderer rendererCom;
+    //reference for red Color
+    private Color redColor = Color.red;
+    //reference for original color
+    private Color originalColor;
+    //reference for t for color lerping
+    private float t = 0;
 
     //Called before Start
     private void Awake()
     {
-        cCombinations = new CustomerCombinations();
+        //store this customer's renderer
+        rendererCom = GetComponent<Renderer>();
     }
     // Start is called before the first frame update
     void Start()
     {
+        //store this customer's original material color
+        originalColor = rendererCom.material.GetColor("_BaseColor");
         //set the current waiting time to the default waiting time
         currentTimeWaiting = defaultWaitingTime;
         //set the customer's behaviour to waiting
@@ -56,7 +66,7 @@ public class Customer : MonoBehaviour
     void Update()
     {
         //if our current waiting time is greater than zero...
-        /*if(currentTimeWaiting > 0)
+        if(currentTimeWaiting > 0)
         {
             //...if we're angry...
             if(currentBehaviour == CustomerBehaviour.Angry)
@@ -70,6 +80,15 @@ public class Customer : MonoBehaviour
                 //...subtract it by time.deltatime * 1
                 currentTimeWaiting -= Time.deltaTime * 1f;
             }
+            //lerp between this customer's original color and the red one based on the amount of time we have left
+            rendererCom.material.SetColor("_BaseColor", Color.Lerp(originalColor, redColor, t));
+            //if t is below the end limit...
+            if(t < 1)
+            {
+                //...add to t time.deltatime divided by our default waiting time
+                t += Time.deltaTime / currentTimeWaiting;
+            }
+          
         }
         //if our waiting time is less than or equal to zero...
         if(currentTimeWaiting <= 0)
@@ -80,7 +99,7 @@ public class Customer : MonoBehaviour
                 //...call OnCustomerLeft
                 OnCustomerLeft();
             }
-        }*/
+        }
     }
     private void OnCustomerLeft()
     {
@@ -271,50 +290,5 @@ public class Customer : MonoBehaviour
             //...then set its texture to the one based on the new string. Load from Resources.
             combinationIndicatorPlane.GetComponent<Renderer>().material.SetTexture("_BaseMap", (Texture2D)Resources.Load(string.Format("VegetableCombinations/Textures/{0}", combinationWithoutComa)));
         }
-    }
-}
-public class CustomerCombinations
-{
-    public string[] combinations = new string[]
-    {
-        "Spinach,Celery,Lettuce",
-        "Spinach,Celery,Carrot",
-        "Spinach,Celery,Tomato",
-        "Spinach,Celery,Onion",
-        "Spinach,Lettuce,Carrot",
-        "Spinach,Lettuce,Tomato",
-        "Spinach,Lettuce,Onion",
-        "Spinach,Carrot,Tomato",
-        "Spinach,Carrot,Onion",
-        "Spinach,Tomato,Onion",
-        "Celery,Lettuce,Carrot",
-        "Celery,Lettuce,Tomato",
-        "Celery,Lettuce,Onion",
-        "Celery,Carrot,Tomato",
-        "Celery,Carrot,Onion",
-        "Celery,Tomato,Onion",
-        "Lettuce,Carrot,Tomato",
-        "Lettuce,Carrot,Onion",
-        "Lettuce,Tomato,Onion",
-        "Carrot,Tomato,Onion",
-        "Spinach,Celery",
-        "Spinach,Lettuce",
-        "Spinach,Carrot",
-        "Spinach,Tomato",
-        "Spinach,Onion",
-        "Celery,Lettuce",
-        "Celery,Carrot",
-        "Celery,Tomato",
-        "Celery,Onion",
-        "Lettuce,Carrot",
-        "Lettuce,Tomato",
-        "Lettuce,Onion",
-        "Carrot,Tomato",
-        "Carrot,Onion",
-        "Tomato,Onion"
-    };
-    public string GetRandomCombination()
-    {
-        return combinations[Random.Range(0, combinations.Length)];
     }
 }
