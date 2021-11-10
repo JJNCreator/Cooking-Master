@@ -29,6 +29,7 @@ The players will:
 
 **IMPORTANT NOTES**
 - The player must mix the ingredients in the order shown by the customer they are serving. 
+- Players can only up to two items at a time.
 - A trash can is available for players to throw items away. If they throw away a combination, they'll lose points
 - Customers' timers are indicated by their color. The redder they become, the less time you have left to serve them.
 - Plates (located next to the chopping boards) can hold one item. They can then be picked up if needed.

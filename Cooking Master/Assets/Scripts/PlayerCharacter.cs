@@ -214,21 +214,25 @@ public class PlayerCharacter : MonoBehaviour
     }
     private void PutItemsInTrashCan()
     {
-        //for each of the items in our inventory
-        foreach (Item i in currentlyPickedUpItems)
+        //if we have something in our inventory...
+        if(currentlyPickedUpItems.Count > 0)
         {
-            //if one of them is a combination...
-            if (i.IsCombination())
+            //for each of the items in our inventory
+            foreach (Item i in currentlyPickedUpItems)
             {
-                //...deduct some points for this player only
-                GameManager.Instance.UpdatePlayerScore(-5, isBluePlayer);
+                //if one of them is a combination...
+                if (i.IsCombination())
+                {
+                    //...deduct some points for this player only
+                    GameManager.Instance.UpdatePlayerScore(-5, isBluePlayer);
+                }
             }
-        }
-        //Clear this player's inventory
-        currentlyPickedUpItems.Clear();
+            //Clear this player's inventory
+            currentlyPickedUpItems.Clear();
 
-        //update this player's inventory UI
-        UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
+            //update this player's inventory UI
+            UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
+        }
     }
     private void InteractWithPlate()
     {
@@ -300,6 +304,12 @@ public class PlayerCharacter : MonoBehaviour
         //otherwise...
         else
         {
+            //if we don't have anything in our inventory...
+            if(currentlyPickedUpItems.Count <= 0)
+            {
+                //...don't go any further
+                return;
+            }
             //reference for first item in player inventory
             Item firstItemInInventory = currentlyPickedUpItems[0];
             //call function for chopping
@@ -314,14 +324,18 @@ public class PlayerCharacter : MonoBehaviour
     }
     private void InteractWithCustomer()
     {
-        //set up a reference for the currently detected customer's Customer component
-        Customer customerReference = currentlyDetectedCustomer.GetComponent<Customer>();
-        //call the customer's function to compare names
-        customerReference.DetermineBehaviour(currentlyPickedUpItems[0].GetItemName(), isBluePlayer);
-        //remove the item from this player's inventory
-        currentlyPickedUpItems.RemoveAt(0);
-        //update this player's inventory UI
-        UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
+        //if we have somthing in our inventory...
+        if(currentlyPickedUpItems.Count > 0)
+        {
+            //set up a reference for the currently detected customer's Customer component
+            Customer customerReference = currentlyDetectedCustomer.GetComponent<Customer>();
+            //call the customer's function to compare names
+            customerReference.DetermineBehaviour(currentlyPickedUpItems[0].GetItemName(), isBluePlayer);
+            //remove the item from this player's inventory
+            currentlyPickedUpItems.RemoveAt(0);
+            //update this player's inventory UI
+            UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
