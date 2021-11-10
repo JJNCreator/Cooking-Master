@@ -119,157 +119,30 @@ public class UIManager : MonoBehaviour
 
             }
         }
-
-        /*//if we're the blue player...
-        if (bluePlayer)
+    }
+    public void UpdatePlayerTime(bool bluePlayer)
+    {
+        //if we're the blue player...
+        if(bluePlayer)
         {
-            //...switch statement
-            switch(items.Count)
+            //...if the blue player time UI exists...
+            if(bluePlayerTimeText != null)
             {
-                //if we don't have anything in our inventory...
-                case 0:
-                    //...run through this twice
-                    for(int i = 0; i < 2; i++)
-                    {
-                        //...set both inventory items' sprite to null
-                        bluePlayerInventoryItems[i].sprite = null;
-                    }
-                    break;
-                //if we have one item in our inventory...
-                case 1:
-                    //set up a new string that is empty
-                    string singleOrCombinationName = string.Empty;
-                    //if the item is a combination
-                    if (items[0].IsCombination())
-                    {
-                        //...set up an array of strings that is split by the coma in the first item name
-                        string[] splitStrings = items[0].GetItemName().Split(',');
-                        //for each of the values in the array...
-                        foreach(string s in splitStrings)
-                        {
-                            //...add s to the empty string
-                            singleOrCombinationName += s;
-                        }
-                    }
-                    //if the item is not a combination...
-                    else
-                    {
-                        //...just assign the item name to combinationWithoutComas
-                        singleOrCombinationName = items[0].GetItemName();
-                    }
-                    //set up a sprite that is retrieved from the Resources folder based on the combination without comas
-                    Sprite itemSprite = Resources.Load<Sprite>(string.Format("VegetableSprites/{0}", singleOrCombinationName));
-                    //assign the sprite to the first slot in the player's inventory
-                    bluePlayerInventoryItems[0].sprite = itemSprite;
-                    break;
-                //if we have two items in our inventory...
-                case 2:
-                    //set up a string that is empty
-                    string singleOrCombinationName2 = string.Empty;
-                    //...for each of the items in the input parameter...
-                    for(int i = 0; i < items.Count; i++)
-                    {
-                        //...if items[i] is a combination...
-                        if(items[i].IsCombination())
-                        {
-                            //...set up an array of strings that is split by the coma in items[i]
-                            string[] splitStrings2 = items[i].GetItemName().Split(',');
-                            //for each of the values in the array...
-                            foreach(string s2 in splitStrings2)
-                            {
-                                //...add s to the empty string
-                                singleOrCombinationName2 += s2;
-                            }
-                        }
-                        //if the item is not a combination...
-                        else
-                        {
-                            //...just assign the item name to combinationWithoutComas
-                            singleOrCombinationName2 = items[i].GetItemName();
-                        }
-                        //set up a sprite that is retrieved from ther Resources folder based on item[i]'s name
-                        Sprite itemSprite2 = Resources.Load<Sprite>(string.Format("VegetableSprites/{0}", singleOrCombinationName2));
-                        //assign the sprite to the slots of the player inventory
-                        bluePlayerInventoryItems[i].sprite = itemSprite2;
-                    }
-                    break;
+                //...set its text as an integer of the blue player's time from Game Manager
+                bluePlayerTimeText.text = string.Format("Time: {0}s", (int)GameManager.Instance.bluePlayerTime);
             }
         }
         //if we're the red player...
         else
         {
-            //...switch statement
-            switch (items.Count)
+            //...if the red player time UI exists...
+            if(redPlayerTimeText != null)
             {
-                //if we don't have anything in our inventory...
-                case 0:
-                    //...run through this twice
-                    for (int i = 0; i < 2; i++)
-                    {
-                        //...set both inventory items' sprite to null
-                        redPlayerInventoryItems[i].sprite = null;
-                    }
-                    break;
-                //if we have one item in our inventory...
-                case 1:
-                    //set up a new string that is empty
-                    string singleOrCombinationName = string.Empty;
-                    //if the item is a combination
-                    if (items[0].IsCombination())
-                    {
-                        //...set up an array of strings that is split by the coma in the first item name
-                        string[] splitStrings = items[0].GetItemName().Split(',');
-                        //for each of the values in the array...
-                        foreach (string s in splitStrings)
-                        {
-                            //...add s to the empty string
-                            singleOrCombinationName += s;
-                        }
-                    }
-                    //if the item is not a combination...
-                    else
-                    {
-                        //...just assign the item name to combinationWithoutComas
-                        singleOrCombinationName = items[0].GetItemName();
-                    }
-                    //set up a sprite that is retrieved from the Resources folder based on the combination without comas
-                    Sprite itemSprite = Resources.Load<Sprite>(string.Format("VegetableSprites/{0}", singleOrCombinationName));
-                    //assign the sprite to the first slot in the player's inventory
-                    redPlayerInventoryItems[0].sprite = itemSprite;
-                    break;
-                //if we have two items in our inventory...
-                case 2:
-                    //set up a string that is empty
-                    string singleOrCombinationName2 = string.Empty;
-                    //...for each of the items in the input parameter...
-                    for (int i = 0; i < items.Count; i++)
-                    {
-                        //...if items[i] is a combination...
-                        if (items[i].IsCombination())
-                        {
-                            //...set up an array of strings that is split by the coma in items[i]
-                            string[] splitStrings2 = items[i].GetItemName().Split(',');
-                            //for each of the values in the array...
-                            foreach (string s2 in splitStrings2)
-                            {
-                                //...add s to the empty string
-                                singleOrCombinationName2 += s2;
-                            }
-                        }
-                        //if the item is not a combination...
-                        else
-                        {
-                            //...just assign the item name to combinationWithoutComas
-                            singleOrCombinationName2 = items[i].GetItemName();
-                        }
-                        //set up a sprite that is retrieved from ther Resources folder based on item[i]'s name
-                        Sprite itemSprite2 = Resources.Load<Sprite>(string.Format("VegetableSprites/{0}", singleOrCombinationName2));
-                        //assign the sprite to the slots of the player inventory
-                        redPlayerInventoryItems[i].sprite = itemSprite2;
-                    }
-                    break;
+                //...set its text as an integer of the red player's time from Game Manager
+                redPlayerTimeText.text = string.Format("Time: {0}s", (int)GameManager.Instance.redPlayerTime);
             }
-        }*/
+        }
+
     }
     public void UpdatePlayerScore(int newScore, bool bluePlayer)
     {

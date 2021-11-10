@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
         SpawnPlayers();
         InitSpawnVegetables();
         SpawnCustomer();
+        StartPlayerTimers();
 
         UIManager.Instance.UpdatePlayerScore(bluePlayerScore, true);
         UIManager.Instance.UpdatePlayerScore(redPlayerScore, false);
@@ -72,7 +73,39 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //if the blue player's time is greater than zero...
+        if(bluePlayerTime > 0)
+        {
+            //...subtract one from it every second
+            bluePlayerTime -= Time.deltaTime * 1f;
+        }
+        //if the blue player's time is less than or equal to zero...
+        if(bluePlayerTime <= 0)
+        {
+            //...disable the blue player's movement
+            bluePlayerRef.canMove = false;
+        }
+        //if the red player's time is greater than zero...
+        if (redPlayerTime > 0)
+        {
+            //...subtract one from it every second
+            redPlayerTime -= Time.deltaTime * 1f;
+        }
+        //if the red player's time is less than or equal to zero...
+        if (redPlayerTime <= 0)
+        {
+            //...disable the red player's movement
+            redPlayerRef.canMove = false;
+        }
+        //update the UI for both players' times
+        UIManager.Instance.UpdatePlayerTime(true);
+        UIManager.Instance.UpdatePlayerTime(false);
+        //if both players ran out of time...
+        if(bluePlayerTime <= 0 && redPlayerTime <= 0)
+        {
+            //...enable the endgame UI
+            UIManager.Instance.endUI.SetActive(true);
+        }
     }
 
     private void InitSpawnVegetables()
@@ -84,6 +117,12 @@ public class GameManager : MonoBehaviour
         SpawnVegetableAtSpawn(Vegetable.VegetableType.Onion);
         SpawnVegetableAtSpawn(Vegetable.VegetableType.Tomato);
 
+    }
+
+    private void StartPlayerTimers()
+    {
+        bluePlayerTime = 120f;
+        redPlayerTime = 120f;
     }
 
     public void RespawnVegetable(Vegetable.VegetableType typeToSpawn)

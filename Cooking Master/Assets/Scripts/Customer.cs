@@ -15,8 +15,12 @@ public class Customer : MonoBehaviour
     public CustomerBehaviour currentBehaviour;
     //did this customer interact with the blue player?
     public bool interactedWithBluePlayer;
-    //reference for waiting time
-    public float defaultWaitingTime = 25f;
+    //reference for waiting time for three ingredients
+    private float waitingTimeForThreeCombo = 40f;
+    //reference for waiting time for two ingredients
+    private float waitingTimeForTwoCombo = 35f;
+    //reference for assigned waiting time
+    public float assignedWaitingTime;
     //reference for current time waiting
     public float currentTimeWaiting;
     //reference for requested combination
@@ -52,14 +56,16 @@ public class Customer : MonoBehaviour
     {
         //store this customer's original material color
         originalColor = rendererCom.material.GetColor("_BaseColor");
-        //set the current waiting time to the default waiting time
-        currentTimeWaiting = defaultWaitingTime;
+       
         //set the customer's behaviour to waiting
         currentBehaviour = CustomerBehaviour.Waiting;
         //get a random combination
         requestedCombination = RandomCombinationRequest();
         //Set the indicator plane based on the request
         SetPlanesBasedOnRequest();
+
+        //set the current waiting time to the assigned waiting time
+        currentTimeWaiting = assignedWaitingTime;
     }
 
     // Update is called once per frame
@@ -108,6 +114,7 @@ public class Customer : MonoBehaviour
         //switch statement
         switch(currentBehaviour)
         {
+            //we're satisifed
             //we're angry
             case CustomerBehaviour.Angry:
                 //subtract double points from the player who delivered the wrong meal
@@ -122,6 +129,11 @@ public class Customer : MonoBehaviour
         }
         GameManager.Instance.DestroyCustomer(this.gameObject);
     }
+    private float SeventyPercentOf()
+    {
+        //return the following equation: (70/100) * assigned waiting time
+        return ((70 / 100) * assignedWaitingTime);
+    }
     public void DetermineBehaviour(string itemNameFromPlayer, bool blueOrRed)
     {
         //set this customer's interactWithBluePlayer based on the provided boolean
@@ -131,6 +143,12 @@ public class Customer : MonoBehaviour
         {
             //...customer is satisfied!
             currentBehaviour = CustomerBehaviour.Satisfied;
+            //if we delivered before seventy percent of the waiting time...
+            if(currentTimeWaiting < SeventyPercentOf())
+            {
+                Debug.Log("Customer:DetermineBehaviour() - delivered withing 70% of the waiting time! Here's a pickup!");
+                //TODO: set up pickup call here
+            }
         }
         //otherwise...
         else
@@ -164,9 +182,11 @@ public class Customer : MonoBehaviour
         {
             case 0:
                 returnValue = string.Format("{0},{1}", vegetableNames[Random.Range(0, vegetableNames.Length)], vegetableNames[Random.Range(0, vegetableNames.Length)]);
+                assignedWaitingTime = waitingTimeForTwoCombo;
                 break;
             case 1:
                 returnValue = string.Format("{0},{1},{2}", vegetableNames[Random.Range(0, vegetableNames.Length)], vegetableNames[Random.Range(0, vegetableNames.Length)], vegetableNames[Random.Range(0, vegetableNames.Length)]);
+                assignedWaitingTime = waitingTimeForThreeCombo;
                 break;
         }
 

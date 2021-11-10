@@ -330,6 +330,10 @@ public class PlayerCharacter : MonoBehaviour
         Customer customerReference = currentlyDetectedCustomer.GetComponent<Customer>();
         //call the customer's function to compare names
         customerReference.DetermineBehaviour(currentlyPickedUpItems[0].GetItemName(), isBluePlayer);
+        //remove the item from this player's inventory
+        currentlyPickedUpItems.RemoveAt(0);
+        //update this player's inventory UI
+        UIManager.Instance.UpdatePlayerInventory(currentlyPickedUpItems, isBluePlayer);
     }
     private void OnTriggerEnter(Collider other)
     {
