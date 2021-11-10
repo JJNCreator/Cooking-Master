@@ -29,6 +29,17 @@ public class InventorySlot : MonoBehaviour
     }
     public void UpdateSlot(string itemName)
     {
+        //if item name is empty...
+        if(string.IsNullOrEmpty(itemName))
+        {
+            //...enable only the single sprite
+            ToggleSpriteGameObjects(true, false, false);
+            //set its sprite to null
+            singleVegetableImage.sprite = null;
+            //return
+            return;
+        }
+
         //local variable for comma counter
         int commaCounter = 0;
         //for each part of the item name...

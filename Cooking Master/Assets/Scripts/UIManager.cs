@@ -56,21 +56,67 @@ public class UIManager : MonoBehaviour
         //if we're the blue player...
         if(bluePlayer)
         {
-            //for each of the items...
-            for(int i = 0; i < items.Count; i++)
+            //switch statement
+            switch(items.Count)
             {
-                //...update the blue player's inventory slots with them
-                bluePlayerInventoryItems[i].UpdateSlot(items[i].GetItemName());
+                //if item count is zero...
+                case 0:
+                    //...run through this twice...
+                    for(int i = 0; i < 2; i++)
+                    {
+                        //...set the blue player's inventory sprites to null
+                        bluePlayerInventoryItems[i].UpdateSlot(string.Empty);
+                    }
+                    break;
+                //if we have one item in our inventory...
+                case 1:
+                    //...set the first slot's sprite to the item in our list
+                    bluePlayerInventoryItems[0].UpdateSlot(items[0].GetItemName());
+                    bluePlayerInventoryItems[1].UpdateSlot(string.Empty);
+                    break;
+                //if we have two items...
+                case 2:
+                    //for each of the items...
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        //...update the blue player's inventory slots with them
+                        bluePlayerInventoryItems[i].UpdateSlot(items[i].GetItemName());
+                    }
+                    break;
+
             }
         }
         //otherwise...
         else
         {
-            //for each of the items...
-            for (int i = 0; i < items.Count; i++)
+            //switch statement
+            switch (items.Count)
             {
-                //...update the blue player's inventory slots with them
-                redPlayerInventoryItems[i].UpdateSlot(items[i].GetItemName());
+                //if item count is zero...
+                case 0:
+                    //...run through this twice...
+                    for (int i = 0; i < 2; i++)
+                    {
+                        //...set the red player's inventory sprites to null
+                        redPlayerInventoryItems[i].UpdateSlot(string.Empty);
+                    }
+                    break;
+                //if we have one item in our inventory...
+                case 1:
+                    //...set the first slot's sprite to the item in our list
+                    redPlayerInventoryItems[0].UpdateSlot(items[0].GetItemName());
+                    redPlayerInventoryItems[1].UpdateSlot(string.Empty);
+                    break;
+                //if we have two items...
+                case 2:
+                    //for each of the items...
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        //...update the red player's inventory slots with them
+                        redPlayerInventoryItems[i].UpdateSlot(items[i].GetItemName());
+                    }
+                    break;
+
             }
         }
 

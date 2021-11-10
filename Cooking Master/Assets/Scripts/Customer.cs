@@ -137,7 +137,6 @@ public class Customer : MonoBehaviour
         {
             //...customer is FURIOUS
             currentBehaviour = CustomerBehaviour.Angry;
-            //TODO: Speed up the wait time here
         }
 
         //set the game manager's code based on this customer's behaviour
