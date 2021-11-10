@@ -6027,7 +6027,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Top 10 Scores
+  m_Text: Top Scores
 --- !u!222 &1612860898
 CanvasRenderer:
   m_ObjectHideFlags: 0
