@@ -172,12 +172,14 @@ public class UIManager : MonoBehaviour
             {
                 //...find the text child and have it say "Blue player wins!"
                 endUI.transform.Find("Winner").GetComponent<Text>().text = "Blue player wins!";
+                HighScoreManager.Instance.AddTopScoreEntry(GameManager.Instance.bluePlayerScore);
             }
             //otherwise...
             else
             {
                 //...have it say "Red player wins!"
                 endUI.transform.Find("Winner").GetComponent<Text>().text = "Red player wins!";
+                HighScoreManager.Instance.AddTopScoreEntry(GameManager.Instance.redPlayerScore);
             }
         }
     }
